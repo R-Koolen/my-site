@@ -1,10 +1,38 @@
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 const MAP_URL = 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json';
 
+// ─── ISO3 -> ISO2 MAPPING ──────────────────────────────────────────────────
+// The geo.json uses 3-letter codes; OIL_TRADE uses 2-letter codes
+const ISO3_TO_ISO2 = {
+  AFG:"AF",ALB:"AL",DZA:"DZ",AND:"AD",AGO:"AO",ATG:"AG",ARG:"AR",ARM:"AM",
+  AUS:"AU",AUT:"AT",AZE:"AZ",BHS:"BS",BHR:"BH",BGD:"BD",BRB:"BB",BLR:"BY",
+  BEL:"BE",BLZ:"BZ",BEN:"BJ",BTN:"BT",BOL:"BO",BIH:"BA",BWA:"BW",BRA:"BR",
+  BRN:"BN",BGR:"BG",BFA:"BF",BDI:"BI",KHM:"KH",CMR:"CM",CAN:"CA",CPV:"CV",
+  CAF:"CF",TCD:"TD",CHL:"CL",CHN:"CN",COL:"CO",COM:"KM",COD:"CD",COG:"CG",
+  CRI:"CR",CIV:"CI",HRV:"HR",CUB:"CU",CYP:"CY",CZE:"CZ",DNK:"DK",DJI:"DJ",
+  DOM:"DO",ECU:"EC",EGY:"EG",SLV:"SV",GNQ:"GQ",ERI:"ER",EST:"EE",ETH:"ET",
+  FJI:"FJ",FIN:"FI",FRA:"FR",GAB:"GA",GMB:"GM",GEO:"GE",DEU:"DE",GHA:"GH",
+  GRC:"GR",GTM:"GT",GIN:"GN",GNB:"GW",GUY:"GY",HTI:"HT",HND:"HN",HUN:"HU",
+  ISL:"IS",IND:"IN",IDN:"ID",IRN:"IR",IRQ:"IQ",IRL:"IE",ISR:"IL",ITA:"IT",
+  JAM:"JM",JPN:"JP",JOR:"JO",KAZ:"KZ",KEN:"KE",PRK:"KP",KOR:"KR",KWT:"KW",
+  KGZ:"KG",LAO:"LA",LVA:"LV",LBN:"LB",LSO:"LS",LBR:"LR",LBY:"LY",LIE:"LI",
+  LTU:"LT",LUX:"LU",MKD:"MK",MDG:"MG",MWI:"MW",MYS:"MY",MDV:"MV",MLI:"ML",
+  MLT:"MT",MRT:"MR",MUS:"MU",MEX:"MX",MDA:"MD",MCO:"MC",MNG:"MN",MNE:"ME",
+  MAR:"MA",MOZ:"MZ",MMR:"MM",NAM:"NA",NPL:"NP",NLD:"NL",NZL:"NZ",NIC:"NI",
+  NER:"NE",NGA:"NG",NOR:"NO",OMN:"OM",PAK:"PK",PAN:"PA",PNG:"PG",PRY:"PY",
+  PER:"PE",PHL:"PH",POL:"PL",PRT:"PT",QAT:"QA",ROU:"RO",RUS:"RU",RWA:"RW",
+  SAU:"SA",SEN:"SN",SRB:"RS",SLE:"SL",SVK:"SK",SVN:"SI",SOM:"SO",ZAF:"ZA",
+  SSD:"SS",ESP:"ES",LKA:"LK",SDN:"SD",SUR:"SR",SWZ:"SZ",SWE:"SE",CHE:"CH",
+  SYR:"SY",TWN:"TW",TJK:"TJ",TZA:"TZ",THA:"TH",TLS:"TL",TGO:"TG",TTO:"TT",
+  TUN:"TN",TUR:"TR",TKM:"TM",UGA:"UG",UKR:"UA",ARE:"AE",GBR:"GB",USA:"US",
+  URY:"UY",UZB:"UZ",VEN:"VE",VNM:"VN",YEM:"YE",ZMB:"ZM",ZWE:"ZW",
+  KSV:"XK",PSE:"PS",
+};
+
 // ─── STATE ─────────────────────────────────────────────────────────────────
 let selectedISO  = null;
 let activeTab    = 'exports'; // 'exports' | 'imports'
-let pathMap      = {};        // iso -> SVG path element
+let pathMap      = {};        // iso2 -> SVG path element
 
 // ─── DERIVED LOOKUPS (built from OIL_TRADE) ────────────────────────────────
 // importMap[importer][exporter] = kb/d  (reverse of OIL_TRADE)
@@ -51,22 +79,23 @@ function coordsToPath(geometry) {
 function renderMap(geojson) {
   const svg = document.getElementById('world-map');
   geojson.features.forEach(feature => {
-    const iso  = feature.id?.toUpperCase();
-    const name = feature.properties?.name || iso;
-    if (!iso || !feature.geometry) return;
+    const iso3 = feature.id?.toUpperCase();
+    const iso2 = ISO3_TO_ISO2[iso3] || iso3; // fall back to iso3 if no mapping
+    const name = feature.properties?.name || iso2;
+    if (!iso3 || !feature.geometry) return;
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', coordsToPath(feature.geometry));
     path.setAttribute('class', 'country-path');
-    path.setAttribute('data-iso', iso);
+    path.setAttribute('data-iso', iso2);
     path.setAttribute('data-name', name);
 
-    path.addEventListener('click',      ()  => selectCountry(iso, name));
-    path.addEventListener('mousemove',  (e) => showTooltip(e, iso, name));
+    path.addEventListener('click',      ()  => selectCountry(iso2, name));
+    path.addEventListener('mousemove',  (e) => showTooltip(e, iso2, name));
     path.addEventListener('mouseleave', ()  => hideTooltip());
 
     svg.appendChild(path);
-    pathMap[iso] = path;
+    pathMap[iso2] = path;
   });
 }
 
@@ -140,7 +169,7 @@ function clearSelection() {
 
 function resetMapColors() {
   Object.values(pathMap).forEach(p => {
-    p.className = 'country-path';
+    p.setAttribute('class', 'country-path');
   });
 }
 
