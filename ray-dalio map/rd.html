@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Power Index — Dalio/Ray</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="rd-style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <a href="../home.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      The Atlas
+    </a>
+    <div class="header-title">
+      <h1>Global Power Index</h1>
+      <p>Source: Dalio/Ray Power Index · 24 countries · 40 determinants</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group">
+      <label>Colour map by</label>
+      <select id="metric-select"></select>
+    </div>
+    <div class="legend-bar" id="legend-bar">
+      <span class="legend-lo" id="legend-lo"></span>
+      <div class="legend-gradient" id="legend-gradient"></div>
+      <span class="legend-hi" id="legend-hi"></span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <!-- MAP -->
+  <div class="map-wrap">
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading map…</p>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="panel" id="panel">
+    <div class="panel-empty" id="panel-empty">
+      <div class="panel-empty-icon">🌍</div>
+      <p>Click a country on the map to explore all its determinants</p>
+    </div>
+
+    <div class="panel-content" id="panel-content" style="display:none">
+      <div class="panel-header">
+        <div>
+          <h2 id="panel-name"></h2>
+          <div class="panel-gauge">
+            <span class="gauge-label">Strength Gauge</span>
+            <div class="gauge-track"><div class="gauge-fill" id="gauge-fill"></div></div>
+            <span class="gauge-val" id="gauge-val"></span>
+          </div>
+        </div>
+        <button class="panel-close" id="panel-close">✕</button>
+      </div>
+
+      <div class="panel-tabs">
+        <button class="ptab active" data-section="Key Eight Measures of Power">Power</button>
+        <button class="ptab" data-section="Additional Measures of Power">Additional</button>
+        <button class="ptab" data-section="Future Growth Determinants">Growth</button>
+        <button class="ptab" data-section="Wellbeing">Wellbeing</button>
+        <button class="ptab" data-section="Three Big Cycles">Cycles</button>
+      </div>
+
+      <div class="panel-section-title" id="panel-section-title"></div>
+      <div class="panel-rows" id="panel-rows"></div>
+    </div>
+  </div>
+</div>
+
+<script src="rd-data.js"></script>
+<script src="rd-map.js"></script>
+</body>
+</html>
