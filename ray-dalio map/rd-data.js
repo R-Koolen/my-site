@@ -1060,15 +1060,15 @@ const COUNTRY_TO_ISO2 = {
 const CHOROPLETH_METRICS = [
   { key: "Strength Gauge (0-1)",        label: "Strength Gauge",                section: "Summary" },
   { key: "Future Growth Estimate",      label: "Future Growth Estimate",        section: "Future Growth" },
-  { key: "Education",                   label: "Education",                     section: "Key Eight Measures of Power" },
+  { key: "Power: Education",            label: "Education",                     section: "Key Eight Measures of Power" },
   { key: "Innovation and Technology",   label: "Innovation & Technology",       section: "Key Eight Measures of Power" },
   { key: "Competitiveness",             label: "Competitiveness",               section: "Key Eight Measures of Power" },
   { key: "Military",                    label: "Military",                      section: "Key Eight Measures of Power" },
   { key: "Trade",                       label: "Trade",                         section: "Key Eight Measures of Power" },
   { key: "Economic Output",             label: "Economic Output",               section: "Key Eight Measures of Power" },
   { key: "Financial Center",            label: "Financial Center",              section: "Key Eight Measures of Power" },
-  { key: "Reserve Currency Status",     label: "Reserve Currency Status",       section: "Key Eight Measures of Power" },
+  { key: "Reserve Currency Status³",     label: "Reserve Currency Status",       section: "Key Eight Measures of Power" },
   { key: "Economic/Financial Position", label: "Economic/Financial Position",   section: "Cycles" },
   { key: "Internal Order",              label: "Internal Order",                section: "Cycles" },
-  { key: "External Order",              label: "External Order",                section: "Cycles" },
+  { key: "External Order²",              label: "External Order",                section: "Cycles" },
 ];
