@@ -25,15 +25,16 @@
       <label>Colour map by</label>
       <select id="metric-select"></select>
     </div>
-    <div class="legend-bar" id="legend-bar">
+    <div class="legend-bar">
       <span class="legend-lo" id="legend-lo"></span>
-      <div class="legend-gradient" id="legend-gradient"></div>
+      <div class="legend-gradient"></div>
       <span class="legend-hi" id="legend-hi"></span>
     </div>
   </div>
 </header>
 
 <div class="main">
+
   <!-- MAP -->
   <div class="map-wrap">
     <div class="loading" id="loading">
@@ -46,37 +47,61 @@
 
   <!-- SIDE PANEL -->
   <div class="panel" id="panel">
+
+    <!-- Empty state -->
     <div class="panel-empty" id="panel-empty">
       <div class="panel-empty-icon">🌍</div>
-      <p>Click a country on the map to explore all its determinants</p>
+      <p>Click any country on the map to explore its power determinants</p>
     </div>
 
+    <!-- Populated state -->
     <div class="panel-content" id="panel-content" style="display:none">
-      <div class="panel-header">
-        <div>
-          <h2 id="panel-name"></h2>
-          <div class="panel-gauge">
-            <span class="gauge-label">Strength Gauge</span>
-            <div class="gauge-track"><div class="gauge-fill" id="gauge-fill"></div></div>
-            <span class="gauge-val" id="gauge-val"></span>
+
+      <!-- ① TOP: country identity + gauge -->
+      <div class="panel-top">
+        <div class="panel-flag-name">
+          <span class="panel-flag" id="panel-flag"></span>
+          <div>
+            <h2 id="panel-name"></h2>
+            <div class="panel-rank-line" id="panel-rank-line"></div>
           </div>
         </div>
-        <button class="panel-close" id="panel-close">✕</button>
+        <button class="panel-close" id="panel-close" title="Close">✕</button>
       </div>
 
-      <div class="panel-tabs">
-        <button class="ptab active" data-section="Key Eight Measures of Power">Power</button>
-        <button class="ptab" data-section="Additional Measures of Power">Additional</button>
-        <button class="ptab" data-section="Future Growth Determinants">Growth</button>
-        <button class="ptab" data-section="Wellbeing">Wellbeing</button>
-        <button class="ptab" data-section="Three Big Cycles">Cycles</button>
+      <div class="panel-gauge-wrap">
+        <div class="gauge-row">
+          <span class="gauge-label">Strength Gauge</span>
+          <span class="gauge-val" id="gauge-val"></span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gauge-fill"></div>
+        </div>
+        <div class="gauge-rank" id="gauge-rank"></div>
       </div>
 
-      <div class="panel-section-title" id="panel-section-title"></div>
-      <div class="panel-rows" id="panel-rows"></div>
+      <!-- ② MIDDLE: determinant groups (scrollable) -->
+      <div class="panel-body" id="panel-body"></div>
+
+      <!-- ③ BOTTOM: strengths & weaknesses -->
+      <div class="panel-sw" id="panel-sw">
+        <div class="sw-col">
+          <div class="sw-title sw-title--pos">💪 Strengths</div>
+          <div id="sw-strengths"></div>
+        </div>
+        <div class="sw-col">
+          <div class="sw-title sw-title--neg">⚠️ Weaknesses</div>
+          <div id="sw-weaknesses"></div>
+        </div>
+      </div>
+
     </div>
   </div>
+
 </div>
+
+<!-- Tooltip template for determinant cards -->
+<div class="det-tooltip" id="det-tooltip"></div>
 
 <script src="rd-data.js"></script>
 <script src="rd-map.js"></script>
