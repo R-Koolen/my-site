@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UN GA Voting Alignment — The Atlas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="un-style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <a href="../home.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      The Atlas
+    </a>
+    <div class="header-title">
+      <h1>UN GA Voting Alignment</h1>
+      <p id="header-sub">UN General Assembly · 202 countries · 1946–2025 · 5,694 resolutions</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group">
+      <label>Decade</label>
+      <select id="decade-select"></select>
+    </div>
+    <div class="control-group">
+      <label>Subject</label>
+      <select id="subject-select"></select>
+    </div>
+    <div class="control-group">
+      <label>View</label>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-map" onclick="setMode('map')">Map</button>
+        <button class="mode-btn" id="btn-heatmap" onclick="setMode('heatmap')">Heatmap</button>
+      </div>
+    </div>
+    <div class="legend-bar">
+      <span class="legend-lo">0% agree</span>
+      <div class="legend-gradient" style="background:linear-gradient(to right,#c0392b,#8b5e3c,#1e6b45,#27ae60)"></div>
+      <span class="legend-hi">100% agree</span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- MAP VIEW -->
+  <div class="map-wrap" id="map-wrap">
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading map…</p>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="zoom-controls">
+      <button class="zoom-btn" onclick="mapZoom(1.4)" title="Zoom in">+</button>
+      <button class="zoom-btn" onclick="mapZoom(1/1.4)" title="Zoom out">−</button>
+      <button class="zoom-btn" onclick="mapReset()" title="Reset" style="font-size:11px">⌂</button>
+    </div>
+  </div>
+
+  <!-- HEATMAP VIEW -->
+  <div id="heatmap-wrap">
+    <div class="heatmap-meta" id="heatmap-meta">Loading heatmap…</div>
+    <div id="heatmap-canvas-wrap">
+      <canvas id="heatmap-canvas"></canvas>
+      <div id="heatmap-tooltip"></div>
+    </div>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="panel" id="panel">
+
+    <div class="panel-empty" id="panel-empty">
+      <div class="panel-empty-icon">🌍</div>
+      <p>Click any country on the map to explore its voting alignment with others.</p>
+    </div>
+
+    <div class="panel-content" id="panel-content" style="display:none">
+
+      <div class="panel-top">
+        <div class="panel-flag-name">
+          <span class="panel-flag" id="panel-flag"></span>
+          <div>
+            <h2 id="panel-name"></h2>
+            <div class="panel-sub" id="panel-sub"></div>
+          </div>
+        </div>
+        <button class="panel-close" onclick="clearSelection()">✕</button>
+      </div>
+
+      <div class="panel-gauge-wrap">
+        <div class="gauge-row">
+          <span class="gauge-label">Avg. Alignment</span>
+          <span class="gauge-val" id="gauge-val"></span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gauge-fill"></div>
+        </div>
+        <div class="gauge-meta" id="gauge-meta"></div>
+      </div>
+
+      <div class="panel-list-header">
+        <span>Country</span>
+        <span>Agreement</span>
+      </div>
+
+      <div class="panel-body" id="panel-body"></div>
+
+      <div class="panel-legend">
+        <div class="legend-title-sm">Agreement score</div>
+        <div class="legend-grad-bar"></div>
+        <div class="legend-labs"><span>0%</span><span>50%</span><span>100%</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="un-script.js"></script>
+</body>
+</html>
