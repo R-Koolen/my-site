@@ -41,7 +41,7 @@
     </div>
     <div class="legend-bar">
       <span class="legend-lo">0% agree</span>
-      <div class="legend-gradient" style="background:linear-gradient(to right,#c0392b,#8b5e3c,#1e6b45,#27ae60)"></div>
+      <div class="legend-gradient" style="background:linear-gradient(to right,#c0392b,#e2b44b,#27ae60)"></div>
       <span class="legend-hi">100% agree</span>
     </div>
   </div>
@@ -105,12 +105,33 @@
         <div class="gauge-meta" id="gauge-meta"></div>
       </div>
 
-      <div class="panel-list-header">
-        <span>Country</span>
-        <span>Agreement</span>
+      <!-- Tabs -->
+      <div class="panel-tabs">
+        <button class="tab-btn active" id="tab-btn-countries" onclick="setTab('countries')">Countries</button>
+        <button class="tab-btn" id="tab-btn-subjects" onclick="setTab('subjects')">By Subject</button>
+        <button class="tab-btn" id="tab-btn-trend" onclick="setTab('trend')">Trend</button>
       </div>
 
-      <div class="panel-body" id="panel-body"></div>
+      <!-- Tab: Countries -->
+      <div class="tab-pane" id="tab-countries">
+        <div class="panel-list-header">
+          <span>Country</span>
+          <span>Agreement</span>
+        </div>
+        <div class="panel-body" id="panel-body"></div>
+      </div>
+
+      <!-- Tab: Subject Profile -->
+      <div class="tab-pane" id="tab-subjects" style="display:none">
+        <div class="subject-list" id="subject-list"></div>
+      </div>
+
+      <!-- Tab: Decade Trend -->
+      <div class="tab-pane" id="tab-trend" style="display:none">
+        <div class="trend-wrap">
+          <canvas id="trend-canvas"></canvas>
+        </div>
+      </div>
 
       <div class="panel-legend">
         <div class="legend-title-sm">Agreement score</div>
@@ -122,6 +143,8 @@
   </div>
 </div>
 
+<script src="un-data.js"></script>
 <script src="un-script.js"></script>
+
 </body>
 </html>
