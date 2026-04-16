@@ -81,8 +81,8 @@ a {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background:
-    linear-gradient(135deg, rgba(20, 28, 41, 0.94), rgba(14, 20, 31, 0.8)),
-    radial-gradient(circle at top right, rgba(126, 199, 185, 0.08), transparent 38%);
+    linear-gradient(135deg, rgba(29, 39, 57, 0.96), rgba(20, 28, 41, 0.9)),
+    radial-gradient(circle at top right, rgba(126, 199, 185, 0.1), transparent 40%);
   box-shadow: var(--shadow);
 }
 
@@ -250,7 +250,7 @@ main {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -271,14 +271,6 @@ main {
   transform: translateY(-4px);
   border-color: var(--border-strong);
   box-shadow: 0 28px 56px rgba(0, 0, 0, 0.34);
-}
-
-.map-card:nth-child(-n + 2) {
-  grid-column: span 6;
-}
-
-.map-card:nth-child(n + 3) {
-  grid-column: span 4;
 }
 
 .map-card--coming-soon {
@@ -367,162 +359,129 @@ main {
   background: linear-gradient(135deg, var(--soon-a), var(--soon-b));
 }
 
-.visual-dot,
-.visual-line,
-.visual-blob,
-.visual-arc,
-.visual-bar,
-.visual-ring,
-.visual-grid,
-.visual-cell,
+.visual-world,
+.visual-axis,
 .visual-placeholder,
 .visual-plus {
   position: absolute;
 }
 
-.visual-dot {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(248, 251, 255, 0.84);
-  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08);
+.visual-world {
+  border-radius: 999px;
+  opacity: 0.92;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
 }
 
-.visual-dot--a {
-  top: 26px;
-  left: 24px;
-}
-
-.visual-dot--b {
-  right: 28px;
-  bottom: 30px;
-}
-
-.visual-line {
-  height: 2px;
-  background: rgba(248, 251, 255, 0.78);
-  transform-origin: left center;
-}
-
-.visual-line--top {
-  top: 40px;
-  left: 48px;
-  width: 54%;
-  transform: rotate(11deg);
-}
-
-.visual-line--mid {
-  top: 72px;
-  left: 22px;
-  width: 68%;
+.visual-world--americas {
+  top: 20%;
+  left: 14%;
+  width: 22%;
+  height: 42%;
   transform: rotate(-8deg);
 }
 
-.visual-line--base {
-  bottom: 42px;
-  right: 26px;
-  width: 42%;
-  transform: rotate(15deg);
+.visual-world--south-america {
+  left: 22%;
+  bottom: 16%;
+  width: 12%;
+  height: 24%;
+  transform: rotate(10deg);
 }
 
-.visual-blob {
-  border-radius: 999px;
-  background: rgba(252, 244, 232, 0.78);
-  filter: blur(0.4px);
+.visual-world--europe {
+  top: 18%;
+  left: 45%;
+  width: 14%;
+  height: 20%;
+  transform: rotate(-6deg);
 }
 
-.visual-blob--left {
-  left: 20px;
-  top: 26px;
-  width: 38%;
-  height: 54%;
+.visual-world--africa {
+  top: 38%;
+  left: 45%;
+  width: 17%;
+  height: 30%;
+  transform: rotate(5deg);
 }
 
-.visual-blob--right {
-  right: 22px;
-  bottom: 20px;
-  width: 44%;
-  height: 44%;
+.visual-world--asia {
+  top: 20%;
+  right: 14%;
+  width: 29%;
+  height: 24%;
+  transform: rotate(-4deg);
 }
 
-.visual-arc {
-  border-top: 2px solid rgba(248, 251, 255, 0.82);
-  border-radius: 999px;
-}
-
-.visual-arc--a {
-  inset: 22px 48px auto 18px;
-  height: 72px;
-  transform: rotate(-10deg);
-}
-
-.visual-arc--b {
-  inset: auto 18px 24px 62px;
-  height: 56px;
+.visual-world--oceania {
+  right: 16%;
+  bottom: 18%;
+  width: 12%;
+  height: 12%;
   transform: rotate(8deg);
 }
 
-.visual-bar {
-  bottom: 24px;
-  width: 48px;
-  border-radius: 14px 14px 0 0;
-  background: rgba(248, 251, 255, 0.84);
+.map-card--passport .visual-world {
+  background: rgba(186, 230, 245, 0.85);
 }
 
-.visual-bar--1 {
-  left: 26px;
-  height: 36%;
+.map-card--oil .visual-world--americas,
+.map-card--oil .visual-world--south-america,
+.map-card--oil .visual-world--oceania {
+  background: rgba(244, 120, 89, 0.82);
 }
 
-.visual-bar--2 {
-  left: calc(50% - 24px);
-  height: 58%;
+.map-card--oil .visual-world--europe,
+.map-card--oil .visual-world--africa,
+.map-card--oil .visual-world--asia {
+  background: rgba(146, 214, 126, 0.82);
 }
 
-.visual-bar--3 {
-  right: 26px;
-  height: 78%;
+.map-card--power .visual-world--americas,
+.map-card--power .visual-world--europe {
+  background: rgba(104, 149, 232, 0.82);
 }
 
-.visual-ring {
-  top: 22px;
-  right: 22px;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: 10px solid rgba(248, 251, 255, 0.22);
-  border-top-color: rgba(248, 251, 255, 0.9);
+.map-card--power .visual-world--south-america,
+.map-card--power .visual-world--africa {
+  background: rgba(86, 141, 198, 0.72);
 }
 
-.visual-grid {
-  inset: 18px;
-  border-radius: 16px;
-  background-image:
-    linear-gradient(rgba(248, 251, 255, 0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(248, 251, 255, 0.18) 1px, transparent 1px);
-  background-size: 28px 28px;
+.map-card--power .visual-world--asia,
+.map-card--power .visual-world--oceania {
+  background: rgba(229, 187, 89, 0.82);
 }
 
-.visual-cell {
-  width: 54px;
-  height: 28px;
-  border-radius: 10px;
-  background: rgba(248, 251, 255, 0.86);
+.map-card--un .visual-world--americas,
+.map-card--un .visual-world--europe,
+.map-card--un .visual-world--south-america {
+  background: rgba(67, 186, 129, 0.8);
 }
 
-.visual-cell--a {
-  top: 26px;
-  left: 24px;
+.map-card--un .visual-world--africa,
+.map-card--un .visual-world--oceania {
+  background: rgba(226, 178, 75, 0.78);
 }
 
-.visual-cell--b {
-  top: 62px;
-  right: 30px;
+.map-card--un .visual-world--asia {
+  background: rgba(87, 150, 203, 0.8);
 }
 
-.visual-cell--c {
-  bottom: 24px;
-  left: calc(50% - 27px);
+.visual-axis {
+  background: rgba(248, 251, 255, 0.16);
+}
+
+.visual-axis--horizontal {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+
+.visual-axis--vertical {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
 }
 
 .visual-placeholder {
@@ -621,9 +580,8 @@ main {
     align-items: start;
   }
 
-  .map-card:nth-child(-n + 2),
-  .map-card:nth-child(n + 3) {
-    grid-column: span 6;
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -649,10 +607,5 @@ main {
 
   .card-grid {
     grid-template-columns: 1fr;
-  }
-
-  .map-card:nth-child(-n + 2),
-  .map-card:nth-child(n + 3) {
-    grid-column: auto;
   }
 }
