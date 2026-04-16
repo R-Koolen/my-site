@@ -2,153 +2,209 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Robin's Maps</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="home.css">
+  <meta
+    name="description"
+    content="Interactive map projects by Robin, covering passports, oil trade, global power, and UN voting patterns."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
-
-  <div class="bg-grid"></div>
-
-  <main>
-    <header>
-      <div class="title-block">
-        <span class="eyebrow">Interactive Maps</span>
-        <h1>The Atlas</h1>
-        <p class="subtitle">A collection of data-driven maps. Pick one to explore.</p>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Robin's Maps</p>
+        <h1>Interactive maps that make global data easier to read.</h1>
+        <p class="hero-text">
+          Explore a growing set of map-based projects on travel access, energy
+          flows, geopolitical power, and UN voting alignment.
+        </p>
+        <div class="hero-actions">
+          <a class="button button--primary" href="#map-gallery">Browse maps</a>
+          <a class="button button--secondary" href="#suggest-map">Suggest a map</a>
+        </div>
       </div>
+      <aside class="hero-panel" aria-label="Homepage overview">
+        <p class="panel-label">Collection</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-value">4</span>
+            <span class="stat-label">Live maps</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">1</span>
+            <span class="stat-label">Coming soon</span>
+          </div>
+        </div>
+        <p class="panel-text">
+          Each project focuses on a specific question and turns datasets into a
+          map you can inspect directly.
+        </p>
+      </aside>
     </header>
 
-    <section class="grid" id="map-grid">
+    <main>
+      <section class="section-heading" id="map-gallery">
+        <div>
+          <p class="section-label">Map gallery</p>
+          <h2>Current projects</h2>
+        </div>
+        <p class="section-text">
+          Each card links to a standalone map experience with its own data and
+          interaction model.
+        </p>
+      </section>
 
-      <!-- Passport Explorer -->
-      <a class="card" href="passport-explorer/index.html">
-        <div class="card-visual">
-          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" class="preview-map">
-            <!-- Rough continental silhouettes as decorative blobs -->
-            <!-- Americas -->
-            <ellipse cx="72" cy="75" rx="28" ry="42" fill="#3fb950" opacity="0.7" transform="rotate(-8 72 75)"/>
-            <ellipse cx="80" cy="110" rx="18" ry="28" fill="#3fb950" opacity="0.5" transform="rotate(5 80 110)"/>
-            <!-- Europe/Africa -->
-            <ellipse cx="148" cy="62" rx="18" ry="24" fill="#d29922" opacity="0.7" transform="rotate(-3 148 62)"/>
-            <ellipse cx="152" cy="100" rx="22" ry="34" fill="#e07a30" opacity="0.6" transform="rotate(4 152 100)"/>
-            <!-- Asia -->
-            <ellipse cx="210" cy="60" rx="38" ry="26" fill="#d29922" opacity="0.6" transform="rotate(-5 210 60)"/>
-            <!-- Australia -->
-            <ellipse cx="228" cy="112" rx="18" ry="14" fill="#e07a30" opacity="0.5" transform="rotate(8 228 112)"/>
-            <!-- Grid lines -->
-            <line x1="0" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <line x1="140" y1="0" x2="140" y2="160" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          </svg>
-          <div class="card-tag">Live data</div>
-        </div>
-        <div class="card-body">
-          <h2>Passport Explorer</h2>
-          <p>Click any country to see where its passport grants visa-free access across the world.</p>
-          <span class="card-link">Explore →</span>
-        </div>
-      </a>
+      <section class="card-grid" aria-label="Map projects">
+        <a class="map-card map-card--passport" href="passport-explorer/index.html">
+          <div class="map-visual" aria-hidden="true">
+            <div class="visual-frame">
+              <span class="visual-dot visual-dot--a"></span>
+              <span class="visual-dot visual-dot--b"></span>
+              <span class="visual-line visual-line--top"></span>
+              <span class="visual-line visual-line--mid"></span>
+              <span class="visual-line visual-line--base"></span>
+            </div>
+          </div>
+          <div class="map-card__body">
+            <span class="map-tag">Mobility</span>
+            <h3>Passport Explorer</h3>
+            <p>
+              Compare where each passport unlocks visa-free or visa-on-arrival
+              access across the world.
+            </p>
+            <span class="map-link">Open map</span>
+          </div>
+        </a>
 
-      <!-- Oil Dependency -->
-      <a class="card" href="oil-explorer/oil.html">
-        <div class="card-visual">
-          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" class="preview-map">
-            <ellipse cx="72" cy="75" rx="28" ry="42" fill="#f87171" opacity="0.6" transform="rotate(-8 72 75)"/>
-            <ellipse cx="80" cy="110" rx="18" ry="28" fill="#b91c1c" opacity="0.7" transform="rotate(5 80 110)"/>
-            <ellipse cx="148" cy="62" rx="18" ry="24" fill="#7ee787" opacity="0.5" transform="rotate(-3 148 62)"/>
-            <ellipse cx="152" cy="100" rx="22" ry="34" fill="#3fb950" opacity="0.65" transform="rotate(4 152 100)"/>
-            <ellipse cx="210" cy="60" rx="38" ry="26" fill="#56d364" opacity="0.55" transform="rotate(-5 210 60)"/>
-            <ellipse cx="228" cy="112" rx="18" ry="14" fill="#f87171" opacity="0.4" transform="rotate(8 228 112)"/>
-            <line x1="0" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <line x1="140" y1="0" x2="140" y2="160" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          </svg>
-          <div class="card-tag">2023–2024 data</div>
-        </div>
-        <div class="card-body">
-          <h2>Oil Dependency</h2>
-          <p>Click any country to see who it exports oil to (green) and who it imports from (red), scaled by volume.</p>
-          <span class="card-link">Explore →</span>
-        </div>
-      </a>
+        <a class="map-card map-card--oil" href="oil-explorer/oil.html">
+          <div class="map-visual" aria-hidden="true">
+            <div class="visual-frame">
+              <span class="visual-blob visual-blob--left"></span>
+              <span class="visual-blob visual-blob--right"></span>
+              <span class="visual-arc visual-arc--a"></span>
+              <span class="visual-arc visual-arc--b"></span>
+            </div>
+          </div>
+          <div class="map-card__body">
+            <span class="map-tag">Energy</span>
+            <h3>Oil Dependency</h3>
+            <p>
+              Track who countries import oil from and export oil to, with flows
+              scaled by trade volume.
+            </p>
+            <span class="map-link">Open map</span>
+          </div>
+        </a>
 
-      <!-- Power Index -->
-      <a class="card" href="ray-dalio map/rd.html">
-        <div class="card-visual">
-          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" class="preview-map">
-            <defs>
-              <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#1a3a5c"/>
-                <stop offset="50%" style="stop-color:#2d6a8f"/>
-                <stop offset="100%" style="stop-color:#e2b44b"/>
-              </linearGradient>
-            </defs>
-            <ellipse cx="72" cy="75" rx="28" ry="42" fill="url(#pg)" opacity="0.9" transform="rotate(-8 72 75)"/>
-            <ellipse cx="80" cy="110" rx="18" ry="28" fill="#2d6a8f" opacity="0.6" transform="rotate(5 80 110)"/>
-            <ellipse cx="148" cy="62" rx="18" ry="24" fill="#1a3a5c" opacity="0.8" transform="rotate(-3 148 62)"/>
-            <ellipse cx="152" cy="100" rx="22" ry="34" fill="#2d6a8f" opacity="0.5" transform="rotate(4 152 100)"/>
-            <ellipse cx="210" cy="60" rx="38" ry="26" fill="#e2b44b" opacity="0.5" transform="rotate(-5 210 60)"/>
-            <ellipse cx="228" cy="112" rx="18" ry="14" fill="#1a3a5c" opacity="0.6" transform="rotate(8 228 112)"/>
-            <line x1="0" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-            <line x1="140" y1="0" x2="140" y2="160" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          </svg>
-          <div class="card-tag">40 determinants</div>
-        </div>
-        <div class="card-body">
-          <h2>Global Power Index</h2>
-          <p>Choropleth map of national power across 24 countries. Click any country for a full breakdown of all determinants.</p>
-          <span class="card-link">Explore →</span>
-        </div>
-      </a>
+        <a class="map-card map-card--power" href="ray-dalio map/rd.html">
+          <div class="map-visual" aria-hidden="true">
+            <div class="visual-frame">
+              <span class="visual-bar visual-bar--1"></span>
+              <span class="visual-bar visual-bar--2"></span>
+              <span class="visual-bar visual-bar--3"></span>
+              <span class="visual-ring"></span>
+            </div>
+          </div>
+          <div class="map-card__body">
+            <span class="map-tag">Geopolitics</span>
+            <h3>Global Power Index</h3>
+            <p>
+              Explore how countries compare across major determinants of power
+              using a choropleth-style ranking view.
+            </p>
+            <span class="map-link">Open map</span>
+          </div>
+        </a>
 
-      <!-- Power Index -->
-      <a class="card" href="un nations voting analysis/un.html">
-        <div class="card-visual">
-          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" class="preview-map">
-            <defs>
-              <linearGradient id="pg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#1a5c28"/>
-                <stop offset="50%" style="stop-color:#19425c"/>
-                <stop offset="100%" style="stop-color:#e2b24b"/>
-              </linearGradient>
-            </defs>
-            <ellipse cx="72" cy="75" rx="28" ry="42" fill="url(#pg1)" opacity="0.9" transform="rotate(-8 72 75)"/>
-            <ellipse cx="80" cy="110" rx="18" ry="28" fill="#1a5c28" opacity="0.6" transform="rotate(5 80 110)"/>
-            <ellipse cx="148" cy="62" rx="18" ry="24" fill="#1a5c28" opacity="0.8" transform="rotate(-3 148 62)"/>
-            <ellipse cx="152" cy="100" rx="22" ry="34" fill="#e2b24b" opacity="0.5" transform="rotate(4 152 100)"/>
-            <ellipse cx="210" cy="60" rx="38" ry="26" fill="#19425c" opacity="0.5" transform="rotate(-5 210 60)"/>
-            <ellipse cx="228" cy="112" rx="18" ry="14" fill="#1a5c28" opacity="0.6" transform="rotate(8 228 112)"/>
-            <line x1="0" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-            <line x1="140" y1="0" x2="140" y2="160" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          </svg>
-          <div class="card-tag">1946-2025 data</div>
-        </div>
-        <div class="card-body">
-          <h2>United Nations Voting Analysis</h2>
-          <p>(Heat)map visualization of voting patterns across UN member states.</p>
-          <span class="card-link">Explore →</span>
-        </div>
-      </a>
+        <a class="map-card map-card--un" href="un nations voting analysis/un.html">
+          <div class="map-visual" aria-hidden="true">
+            <div class="visual-frame">
+              <span class="visual-grid"></span>
+              <span class="visual-cell visual-cell--a"></span>
+              <span class="visual-cell visual-cell--b"></span>
+              <span class="visual-cell visual-cell--c"></span>
+            </div>
+          </div>
+          <div class="map-card__body">
+            <span class="map-tag">Institutions</span>
+            <h3>UN GA Voting Analysis</h3>
+            <p>
+              Inspect voting alignment between UN member states through a
+              compact comparative heatmap.
+            </p>
+            <span class="map-link">Open map</span>
+          </div>
+        </a>
 
-      <!-- Coming Soon placeholder -->
-      <div class="card card--soon">
-        <div class="card-visual card-visual--muted">
-          <div class="soon-icon">+</div>
-          <div class="card-tag card-tag--soon">Coming soon</div>
+        <article class="map-card map-card--coming-soon" aria-label="Bond exposure coming soon">
+          <div class="map-visual" aria-hidden="true">
+            <div class="visual-frame">
+              <span class="visual-placeholder"></span>
+              <span class="visual-plus">+</span>
+            </div>
+          </div>
+          <div class="map-card__body">
+            <span class="map-tag map-tag--muted">Coming soon</span>
+            <h3>Bond Exposure</h3>
+            <p>
+              A future map project focused on cross-border bond relationships and
+              exposure patterns.
+            </p>
+            <span class="map-link map-link--muted">In progress</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="suggestion-panel" id="suggest-map">
+        <div class="suggestion-copy">
+          <p class="section-label">Suggest a map</p>
+          <h2>Have a topic worth mapping?</h2>
+          <p>
+            Send an idea for a new map. Include sources, datasets, or context in
+            your message if you have them.
+          </p>
         </div>
-        <div class="card-body">
-          <h2>Next Map</h2>
-          <p>Another interactive map is on its way. Check back soon.</p>
-          <span class="card-link card-link--muted">In progress</span>
-        </div>
-      </div>
 
-    </section>
-  </main>
+        <form
+          class="suggestion-form"
+          action="https://formspree.io/f/xvzdkpzl"
+          method="POST"
+        >
+          <label class="field">
+            <span>Map idea</span>
+            <textarea
+              name="map-idea"
+              rows="6"
+              placeholder="Describe the map you want to see."
+              required
+            ></textarea>
+          </label>
 
-  <footer>
-    <p>Built with GitHub Pages</p>
-  </footer>
+          <label class="field">
+            <span>Contact info</span>
+            <input
+              type="text"
+              name="contact-info"
+              placeholder="Email, X, LinkedIn, or leave blank"
+            />
+          </label>
 
+          <button class="button button--primary" type="submit">Send suggestion</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Made by Robin</p>
+    </footer>
+  </div>
 </body>
 </html>
