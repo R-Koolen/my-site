@@ -1,15 +1,10 @@
-// Build lookup: "decade|subject" → { countryA: { countryB: score } }
+// Global data — populated by initApp() after JSON is fetched from un_voting_data.json
+let meta, rawData, countryStats;
+
+// lookup:    "decade|subject" → { cA: { cB: score } }
+// breakdown: "decade|subject" → { cA: { cB: [pct_yy, pct_nn, pct_aa] } }
 const lookup = {};
-for (const [key, pairs] of Object.entries(rawData)) {
-  const m = {};
-  for (const [cA, cB, score] of pairs) {
-    if (!m[cA]) m[cA] = {};
-    if (!m[cB]) m[cB] = {};
-    m[cA][cB] = score;
-    m[cB][cA] = score;
-  }
-  lookup[key] = m;
-}
+const breakdown = {};
 
 function getKey() {
   const d = document.getElementById('decade-select').value;
@@ -20,6 +15,29 @@ function getKey() {
 
 function getScores(country) {
   return lookup[getKey()]?.[country] || {};
+}
+
+// Returns [pct_yy, pct_nn, pct_aa] for a pair, or null if unavailable or not yet generated.
+// pct_disagree is implied as (1 - score).
+function getBreakdown(cA, cB) {
+  const bd = breakdown[getKey()]?.[cA]?.[cB];
+  // Validate: all three values must be finite numbers (JSON may be pre-breakdown format)
+  if (!bd || typeof bd[0] !== 'number' || !isFinite(bd[0])) return null;
+  return bd;
+}
+
+// Renders a compact stacked bar showing vote composition: YY / NN / AA / disagree
+function breakdownBar(score, bd) {
+  if (!bd) return '';
+  const [yy, nn, aa] = bd;
+  const dis = Math.max(0, Math.round((1 - score) * 1000) / 1000);
+  const toW = v => (v * 100).toFixed(1);
+  return `<div class="bd-bar" title="Both Yes: ${toW(yy)}%  Both No: ${toW(nn)}%  Both Abstain: ${toW(aa)}%  Disagree: ${toW(dis)}%">` +
+    `<div class="bd-seg bd-yy" style="width:${toW(yy)}%" ></div>` +
+    `<div class="bd-seg bd-nn" style="width:${toW(nn)}%" ></div>` +
+    `<div class="bd-seg bd-aa" style="width:${toW(aa)}%" ></div>` +
+    `<div class="bd-seg bd-dis" style="width:${toW(dis)}%"></div>` +
+    `</div>`;
 }
 
 // ─── AVERAGE ALIGNMENT (for default map view) ────────────────────────────────
@@ -285,27 +303,30 @@ const RELIGION_COLORS = {
 const decadeSelect  = document.getElementById('decade-select');
 const subjectSelect = document.getElementById('subject-select');
 
-meta.decades.forEach(d => {
-  const o = document.createElement('option');
-  o.value = d;
-  o.textContent = d === 'all' ? 'All Time' : `${d}s`;
-  decadeSelect.appendChild(o);
-});
+// Called by initApp after data is ready
+function populateSelects() {
+  meta.decades.forEach(d => {
+    const o = document.createElement('option');
+    o.value = d;
+    o.textContent = d === 'all' ? 'All Time' : `${d}s`;
+    decadeSelect.appendChild(o);
+  });
 
-meta.subjects.forEach(s => {
-  if (s === 'all') return;
-  const o = document.createElement('option');
-  o.value = s;
-  o.textContent = s.replace(/--/g, ' › ').replace(/UN\. /g, 'UN ');
-  subjectSelect.appendChild(o);
-});
-const allOpt = document.createElement('option');
-allOpt.value = 'all'; allOpt.textContent = 'All Subjects';
-subjectSelect.insertBefore(allOpt, subjectSelect.firstChild);
-subjectSelect.value = 'all';
+  meta.subjects.forEach(s => {
+    if (s === 'all') return;
+    const o = document.createElement('option');
+    o.value = s;
+    o.textContent = s.replace(/--/g, ' › ').replace(/UN\. /g, 'UN ');
+    subjectSelect.appendChild(o);
+  });
+  const allOpt = document.createElement('option');
+  allOpt.value = 'all'; allOpt.textContent = 'All Subjects';
+  subjectSelect.insertBefore(allOpt, subjectSelect.firstChild);
+  subjectSelect.value = 'all';
 
-decadeSelect.addEventListener('change', onFilterChange);
-subjectSelect.addEventListener('change', onFilterChange);
+  decadeSelect.addEventListener('change', onFilterChange);
+  subjectSelect.addEventListener('change', onFilterChange);
+}
 
 function onFilterChange() {
   updateMap();
@@ -464,6 +485,16 @@ function onCountryHover(e) {
     const score = getScores(selectedCountry)[iso3];
     if (score !== undefined) {
       html += `<div class="tv" style="color:${scoreColor(score)}">${(score*100).toFixed(1)}% agreement with ${getName(selectedCountry)}</div>`;
+      const bd = getBreakdown(selectedCountry, iso3);
+      if (bd) {
+        const [yy, nn, aa] = bd;
+        const dis = Math.max(0, 1 - score);
+        html += `<div class="tl" style="font-size:0.68rem;margin-top:2px">` +
+          `<span style="color:#27ae60">▪ Yes ${(yy*100).toFixed(0)}%</span> ` +
+          `<span style="color:#c0392b">▪ No ${(nn*100).toFixed(0)}%</span> ` +
+          `<span style="color:#e2b44b">▪ Abst ${(aa*100).toFixed(0)}%</span> ` +
+          `<span style="color:#4a5a6e">▪ Dis ${(dis*100).toFixed(0)}%</span></div>`;
+      }
     } else {
       html += `<div class="tl">No voting data vs ${getName(selectedCountry)}</div>`;
     }
@@ -612,18 +643,24 @@ function updatePanel() {
   document.getElementById('gauge-meta').textContent =
     `${entries.length} partner countries · avg alignment`;
 
+  // Vote distribution for this country
+  renderVoteBreakdown(selectedCountry);
+
   // Countries tab
   const body = document.getElementById('panel-body');
   body.innerHTML = entries.map(([code, score], i) => {
     const pct = (score*100).toFixed(1);
     const col = scoreColor(score);
     const cls = i < 5 ? 'top-align' : (i >= entries.length-5 ? 'low-align' : '');
+    const bd  = getBreakdown(selectedCountry, code);
+    const bdBar = bd ? breakdownBar(score, bd) : '';
     return `<div class="country-item ${cls}" onclick="selectFromPanel('${code}')">
       <span class="ci-rank">${i+1}</span>
       <span class="ci-name">${getName(code)}</span>
       <div class="ci-right">
         <span class="ci-score" style="color:${col}">${pct}%</span>
         <div class="ci-bar"><div class="ci-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+        ${bdBar}
       </div>
     </div>`;
   }).join('');
@@ -636,11 +673,262 @@ function updatePanel() {
 }
 
 function selectFromPanel(iso3) {
-  selectedCountry = iso3;
-  mapColorMode = 'selected';
-  updateMap();
-  updatePanel();
-  document.getElementById('panel-body').scrollTop = 0;
+  // Clicking a country in the sidebar opens a direct country-vs-country comparison
+  openComparison(iso3);
+}
+
+// ─── VOTE BREAKDOWN (under gauge) ────────────────────────────────────────────
+function renderVoteBreakdown(iso3) {
+  const vbEl = document.getElementById('vote-beh');
+  const rows = document.getElementById('vb-rows');
+  const st = countryStats[iso3];
+  if (!st) { vbEl.style.display = 'none'; return; }
+  vbEl.style.display = '';
+  const [y, n, a, x] = st;
+  const labels = [['Yes', y, 'vb-y'], ['No', n, 'vb-n'], ['Abstain', a, 'vb-a'], ['Absent', x, 'vb-x']];
+  rows.innerHTML = labels.map(([label, v, cls]) =>
+    `<div class="vb-row">
+      <span class="vb-label">${label}</span>
+      <div class="vb-track"><div class="vb-fill ${cls}" style="width:${(v*100).toFixed(1)}%"></div></div>
+      <span class="vb-pct">${(v*100).toFixed(1)}%</span>
+    </div>`
+  ).join('');
+}
+
+// ─── COMPARISON PANE ─────────────────────────────────────────────────────────
+let compareCountry = null;
+let currentCmpTab  = 'behaviour';
+
+function openComparison(iso3) {
+  compareCountry = iso3;
+
+  // Fill header
+  document.getElementById('cmp-flag-a').textContent = getFlag(selectedCountry);
+  document.getElementById('cmp-name-a').textContent  = getName(selectedCountry);
+  document.getElementById('cmp-flag-b').textContent = getFlag(compareCountry);
+  document.getElementById('cmp-name-b').textContent  = getName(compareCountry);
+
+  // Overall score (all-time, all-subjects)
+  const score = lookup['all|all']?.[selectedCountry]?.[compareCountry];
+  const scoreEl = document.getElementById('cmp-score-val');
+  const fillEl  = document.getElementById('cmp-score-fill');
+  if (score !== undefined) {
+    scoreEl.textContent = (score * 100).toFixed(1) + '%';
+    scoreEl.style.color = scoreColor(score);
+    fillEl.style.width  = (score * 100) + '%';
+    fillEl.style.background = `linear-gradient(to right, #1a4a2e, ${scoreColor(score)})`;
+  } else {
+    scoreEl.textContent = 'N/A';
+    scoreEl.style.color = 'var(--muted)';
+    fillEl.style.width  = '0%';
+  }
+
+  // Show compare pane, hide normal tabs
+  document.getElementById('compare-pane').style.display = 'flex';
+
+  setCmpTab(currentCmpTab);
+}
+
+function closeComparison() {
+  compareCountry = null;
+  document.getElementById('compare-pane').style.display = 'none';
+}
+
+function setCmpTab(tab) {
+  currentCmpTab = tab;
+  ['behaviour', 'subjects', 'trend'].forEach(t => {
+    document.getElementById('ctab-btn-' + t).classList.toggle('active', t === tab);
+    document.getElementById('ctab-' + t).style.display = t === tab ? 'flex' : 'none';
+  });
+  if (tab === 'behaviour') renderCmpBehaviour();
+  if (tab === 'subjects')  renderCmpSubjects();
+  if (tab === 'trend')     requestAnimationFrame(renderCmpTrend);
+}
+
+// ── Behaviour tab ─────────────────────────────────────────────────────────────
+function renderCmpBehaviour() {
+  const cA = selectedCountry, cB = compareCountry;
+  const el = document.getElementById('cmp-beh-content');
+
+  function countryBars(iso3) {
+    const st = countryStats[iso3];
+    if (!st || typeof st[0] !== 'number') {
+      return '<div style="color:var(--muted);font-size:0.75rem">Re-run the notebook to generate vote stats.</div>';
+    }
+    const [y, n, a, x] = st;
+    const rows = [
+      ['Yes',    y, 'cmp-y'],
+      ['No',     n, 'cmp-n'],
+      ['Abstain',a, 'cmp-a'],
+      ['Absent', x, 'cmp-x'],
+    ];
+    return rows.map(([lbl, v, cls]) =>
+      `<div class="cmp-vb-row">
+        <span class="cmp-vb-label">${lbl}</span>
+        <div class="cmp-vb-track"><div class="cmp-vb-fill ${cls}" style="width:${(v*100).toFixed(1)}%"></div></div>
+        <span class="cmp-vb-pct">${(v*100).toFixed(1)}%</span>
+      </div>`
+    ).join('');
+  }
+
+  // Pair breakdown — use all|all key for widest coverage; validate values are real numbers
+  const bdRaw = breakdown['all|all']?.[cA]?.[cB];
+  const score  = lookup['all|all']?.[cA]?.[cB];
+  const bd = (bdRaw && typeof bdRaw[0] === 'number' && isFinite(bdRaw[0])) ? bdRaw : null;
+  let pairHtml = '';
+  if (bd && score !== undefined) {
+    const [yy, nn, aa] = bd;
+    const dis = Math.max(0, 1 - score);
+    const segs = [
+      [yy,  'cmp-yy',  `Both Yes: ${(yy*100).toFixed(1)}%`],
+      [nn,  'cmp-nn',  `Both No: ${(nn*100).toFixed(1)}%`],
+      [aa,  'cmp-aa',  `Both Abstain: ${(aa*100).toFixed(1)}%`],
+      [dis, 'cmp-dis', `Disagree: ${(dis*100).toFixed(1)}%`],
+    ];
+    const bar = segs.map(([v, cls]) =>
+      `<div class="cmp-pair-seg ${cls}" style="width:${(v*100).toFixed(2)}%"></div>`
+    ).join('');
+    const legend = segs.map(([, cls, lbl]) =>
+      `<div class="cmp-pair-leg-item">
+        <div class="cmp-pair-leg-dot" style="background:${cls === 'cmp-yy' ? '#27ae60' : cls === 'cmp-nn' ? '#c0392b' : cls === 'cmp-aa' ? '#e2b44b' : '#2a3a4e'}"></div>
+        ${lbl}
+      </div>`
+    ).join('');
+    pairHtml = `
+      <div class="cmp-beh-section">
+        <div class="cmp-beh-title">Agreement composition (all-time)</div>
+        <div class="cmp-pair-bar-wrap">${bar}</div>
+        <div class="cmp-pair-legend">${legend}</div>
+      </div>`;
+  } else if (score !== undefined) {
+    pairHtml = `
+      <div class="cmp-beh-section">
+        <div class="cmp-beh-title">Agreement composition</div>
+        <div style="color:var(--muted);font-size:0.75rem">Re-run the notebook to generate breakdown data.</div>
+      </div>`;
+  }
+
+  el.innerHTML = `
+    <div class="cmp-beh-section">
+      <div class="cmp-beh-title">Vote distribution — ${getName(cA)}</div>
+      <div class="cmp-beh-country">${countryBars(cA)}</div>
+    </div>
+    <div class="cmp-beh-section">
+      <div class="cmp-beh-title">Vote distribution — ${getName(cB)}</div>
+      <div class="cmp-beh-country">${countryBars(cB)}</div>
+    </div>
+    ${pairHtml}`;
+}
+
+// ── Subjects tab ──────────────────────────────────────────────────────────────
+function renderCmpSubjects() {
+  const cA = selectedCountry, cB = compareCountry;
+  const subjects = meta.subjects.filter(s => s !== 'all');
+  const rows = [];
+
+  subjects.forEach(subj => {
+    const score = lookup[`all|${subj}`]?.[cA]?.[cB];
+    if (score === undefined) return;
+    rows.push({ subj, score });
+  });
+
+  rows.sort((a, b) => b.score - a.score);
+
+  const list = document.getElementById('cmp-subject-list');
+  if (!rows.length) {
+    list.innerHTML = '<div style="padding:20px 16px;color:var(--muted);font-size:0.78rem">No subject data for this pair.</div>';
+    return;
+  }
+
+  list.innerHTML = rows.map(({ subj, score }) => {
+    const pct = (score * 100).toFixed(1);
+    const col = scoreColor(score);
+    const name = subj.replace(/--/g, ' › ');
+    return `<div class="subject-item">
+      <div class="subj-name">${name}</div>
+      <div class="subj-right">
+        <span class="subj-score" style="color:${col}">${pct}%</span>
+        <div class="subj-bar"><div class="subj-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Trend tab ─────────────────────────────────────────────────────────────────
+function renderCmpTrend() {
+  const cA = selectedCountry, cB = compareCountry;
+  const decades = meta.decades.filter(d => d !== 'all');
+
+  const pts = [];
+  decades.forEach(d => {
+    const s = lookup[`${d}|all`]?.[cA]?.[cB];
+    if (s === undefined) return;
+    pts.push({ decade: d, avg: s });
+  });
+
+  const canvas = document.getElementById('cmp-trend-canvas');
+  const wrap   = canvas.parentElement;
+  const W = wrap.clientWidth - 32;
+  const H = Math.max(140, wrap.clientHeight - 16);
+  canvas.width  = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  if (!pts.length) {
+    ctx.fillStyle = '#5a6a7e';
+    ctx.font = '12px Syne, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No decade data for this pair', W / 2, H / 2);
+    return;
+  }
+
+  const PAD = { top: 16, right: 16, bottom: 32, left: 42 };
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top  - PAD.bottom;
+  const xStep = cW / Math.max(pts.length - 1, 1);
+
+  // Grid
+  ctx.strokeStyle = '#1e2836'; ctx.lineWidth = 1;
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => {
+    const y = PAD.top + cH * (1 - v);
+    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + cW, y); ctx.stroke();
+    ctx.fillStyle = '#5a6a7e'; ctx.font = '9px DM Mono, monospace';
+    ctx.textAlign = 'right'; ctx.fillText((v * 100).toFixed(0) + '%', PAD.left - 5, y + 3);
+  });
+
+  // X labels
+  ctx.fillStyle = '#5a6a7e'; ctx.font = '9px DM Mono, monospace'; ctx.textAlign = 'center';
+  pts.forEach(({ decade }, i) => ctx.fillText(decade + 's', PAD.left + i * xStep, H - PAD.bottom + 14));
+
+  // Line + fill
+  ctx.beginPath();
+  pts.forEach(({ avg }, i) => {
+    const x = PAD.left + i * xStep, y = PAD.top + cH * (1 - avg);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#7a8fa8'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  ctx.beginPath();
+  pts.forEach(({ avg }, i) => {
+    const x = PAD.left + i * xStep, y = PAD.top + cH * (1 - avg);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.lineTo(PAD.left + (pts.length - 1) * xStep, PAD.top + cH);
+  ctx.lineTo(PAD.left, PAD.top + cH);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(122,143,168,0.12)'; ctx.fill();
+
+  // Dots
+  pts.forEach(({ avg }, i) => {
+    const x = PAD.left + i * xStep, y = PAD.top + cH * (1 - avg);
+    const col = scoreColor(avg);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = col; ctx.fill();
+    ctx.strokeStyle = '#0a0e14'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = col; ctx.font = 'bold 9px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText((avg * 100).toFixed(0) + '%', x, y - 8);
+  });
 }
 
 // ─── SUBJECT PROFILE TAB ─────────────────────────────────────────────────────
@@ -1036,8 +1324,20 @@ function renderHeatmap() {
       if (gA && gB && gA !== gB) extra += ` <span style="color:var(--muted)">↔</span> <span style="color:var(--muted);font-size:0.68rem">${gB}</span>`;
       extra = extra ? `<div style="margin-bottom:3px">${extra}</div>` : '';
     }
+    const bd = score >= 0 ? getBreakdown(cA, cB) : null;
+    const bdHtml = bd ? (() => {
+      const [yy, nn, aa] = bd;
+      const dis = Math.max(0, 1 - score);
+      return `<div style="margin-top:4px;font-size:0.68rem;color:var(--muted)">` +
+        `<span style="color:#27ae60">▪ Yes ${(yy*100).toFixed(0)}%</span> ` +
+        `<span style="color:#c0392b">▪ No ${(nn*100).toFixed(0)}%</span> ` +
+        `<span style="color:#e2b44b">▪ Abst ${(aa*100).toFixed(0)}%</span> ` +
+        `<span style="color:#4a5a6e">▪ Dis ${(dis*100).toFixed(0)}%</span></div>`;
+    })() : '';
     ht.innerHTML = `<strong>${getName(cA)} × ${getName(cB)}</strong>${extra}` +
-      (score >= 0 ? `<span style="color:${scoreColor(score)}">${(score*100).toFixed(1)}% agreement</span>` : '<span style="color:var(--muted)">No data</span>');
+      (score >= 0
+        ? `<span style="color:${scoreColor(score)}">${(score*100).toFixed(1)}% agreement</span>${bdHtml}`
+        : '<span style="color:var(--muted)">No data</span>');
   };
   canvas.onmouseleave = () => { document.getElementById('heatmap-tooltip').style.display = 'none'; };
   canvas.onclick = (e) => {
@@ -1064,4 +1364,30 @@ function setMode(mode) {
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
-initMap();
+// Called by un-data.js after un_voting_data.json is fetched.
+// bundle = { meta: {countries, decades, subjects}, data: {"decade|subject": [[cA,cB,score,yy,nn,aa],...]} }
+function initApp(bundle) {
+  meta         = bundle.meta;
+  rawData      = bundle.data;
+  countryStats = bundle.stats || {};
+
+  // Build score lookup and breakdown lookup
+  for (const [key, pairs] of Object.entries(rawData)) {
+    const m = {}, bd = {};
+    for (const [cA, cB, score, pct_yy, pct_nn, pct_aa] of pairs) {
+      if (!m[cA])  m[cA]  = {};
+      if (!m[cB])  m[cB]  = {};
+      if (!bd[cA]) bd[cA] = {};
+      if (!bd[cB]) bd[cB] = {};
+      m[cA][cB]  = score;
+      m[cB][cA]  = score;
+      bd[cA][cB] = [pct_yy, pct_nn, pct_aa];
+      bd[cB][cA] = [pct_yy, pct_nn, pct_aa];
+    }
+    lookup[key]    = m;
+    breakdown[key] = bd;
+  }
+
+  populateSelects();
+  initMap();
+}

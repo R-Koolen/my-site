@@ -103,10 +103,16 @@
           <div class="gauge-fill" id="gauge-fill"></div>
         </div>
         <div class="gauge-meta" id="gauge-meta"></div>
+
+        <!-- Vote distribution for selected country -->
+        <div class="vote-beh" id="vote-beh">
+          <div class="vb-title">Own vote distribution</div>
+          <div class="vb-rows" id="vb-rows"></div>
+        </div>
       </div>
 
-      <!-- Tabs -->
-      <div class="panel-tabs">
+      <!-- Tabs: single-country view -->
+      <div class="panel-tabs" id="panel-tabs">
         <button class="tab-btn active" id="tab-btn-countries" onclick="setTab('countries')">Countries</button>
         <button class="tab-btn" id="tab-btn-subjects" onclick="setTab('subjects')">By Subject</button>
         <button class="tab-btn" id="tab-btn-trend" onclick="setTab('trend')">Trend</button>
@@ -137,6 +143,59 @@
         <div class="legend-title-sm">Agreement score</div>
         <div class="legend-grad-bar"></div>
         <div class="legend-labs"><span>0%</span><span>50%</span><span>100%</span></div>
+      </div>
+
+      <!-- ── COMPARISON PANE (slides in when a sidebar country is clicked) ── -->
+      <div class="compare-pane" id="compare-pane" style="display:none">
+        <div class="cmp-header">
+          <button class="cmp-back" onclick="closeComparison()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Back
+          </button>
+          <div class="cmp-vs-row">
+            <span class="cmp-flag" id="cmp-flag-a"></span>
+            <span class="cmp-name" id="cmp-name-a"></span>
+            <span class="cmp-vs">vs</span>
+            <span class="cmp-flag" id="cmp-flag-b"></span>
+            <span class="cmp-name" id="cmp-name-b"></span>
+          </div>
+        </div>
+
+        <div class="cmp-score-strip">
+          <span class="cmp-score-val" id="cmp-score-val"></span>
+          <span class="cmp-score-label">overall agreement</span>
+          <div class="cmp-score-track">
+            <div class="cmp-score-fill" id="cmp-score-fill"></div>
+          </div>
+        </div>
+
+        <!-- Comparison tabs -->
+        <div class="panel-tabs">
+          <button class="tab-btn active" id="ctab-btn-behaviour" onclick="setCmpTab('behaviour')">Behaviour</button>
+          <button class="tab-btn" id="ctab-btn-subjects"  onclick="setCmpTab('subjects')">Subjects</button>
+          <button class="tab-btn" id="ctab-btn-trend"     onclick="setCmpTab('trend')">Trend</button>
+        </div>
+
+        <!-- Behaviour tab -->
+        <div class="ctab-pane" id="ctab-behaviour">
+          <div class="cmp-section-body" id="cmp-beh-content"></div>
+        </div>
+
+        <!-- Subjects tab -->
+        <div class="ctab-pane" id="ctab-subjects" style="display:none">
+          <div class="subject-list" id="cmp-subject-list"></div>
+        </div>
+
+        <!-- Trend tab -->
+        <div class="ctab-pane" id="ctab-trend" style="display:none">
+          <div class="trend-wrap">
+            <canvas id="cmp-trend-canvas"></canvas>
+          </div>
+        </div>
       </div>
 
     </div>
