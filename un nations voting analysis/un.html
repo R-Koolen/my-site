@@ -1,209 +1,196 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UN GA Voting Alignment — The Atlas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="un-style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UN GA Voting Alignment - Robin's Maps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../site.css" />
+  <link rel="stylesheet" href="un-style.css" />
 </head>
 <body>
-
-<header>
-  <div class="header-left">
-    <a href="../home.html" class="home-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-      The Atlas
-    </a>
-    <div class="header-title">
-      <h1>UN GA Voting Alignment</h1>
-      <p id="header-sub">UN General Assembly · 202 countries · 1946–2025 · 5,694 resolutions</p>
-    </div>
-  </div>
-  <div class="header-controls">
-    <div class="control-group">
-      <label>Decade</label>
-      <select id="decade-select"></select>
-    </div>
-    <div class="control-group">
-      <label>Subject</label>
-      <select id="subject-select"></select>
-    </div>
-    <div class="control-group">
-      <label>View</label>
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="btn-map" onclick="setMode('map')">Map</button>
-        <button class="mode-btn" id="btn-heatmap" onclick="setMode('heatmap')">Heatmap</button>
+  <div class="dashboard-shell dashboard-shell--un">
+    <header class="dashboard-header">
+      <div class="header-left">
+        <a href="../home.html" class="home-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Robin's Maps
+        </a>
+        <div class="header-title">
+          <p class="eyebrow">Institutions</p>
+          <h1>UN GA Voting Alignment</h1>
+          <p id="header-sub">UN General Assembly · 202 countries · 1946-2025 · 5,694 resolutions</p>
+        </div>
       </div>
-    </div>
-    <div class="legend-bar">
-      <span class="legend-lo">0% agree</span>
-      <div class="legend-gradient" style="background:linear-gradient(to right,#c0392b,#e2b44b,#27ae60)"></div>
-      <span class="legend-hi">100% agree</span>
-    </div>
-  </div>
-</header>
-
-<div class="main">
-
-  <!-- MAP VIEW -->
-  <div class="map-wrap" id="map-wrap">
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p>Loading map…</p>
-    </div>
-    <div class="tooltip" id="tooltip"></div>
-    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div class="zoom-controls">
-      <button class="zoom-btn" onclick="mapZoom(1.4)" title="Zoom in">+</button>
-      <button class="zoom-btn" onclick="mapZoom(1/1.4)" title="Zoom out">−</button>
-      <button class="zoom-btn" onclick="mapReset()" title="Reset" style="font-size:11px">⌂</button>
-    </div>
-  </div>
-
-  <!-- HEATMAP VIEW -->
-  <div id="heatmap-wrap">
-    <div class="heatmap-meta" id="heatmap-meta">Loading heatmap…</div>
-    <div id="heatmap-canvas-wrap">
-      <canvas id="heatmap-canvas"></canvas>
-      <div id="heatmap-tooltip"></div>
-    </div>
-  </div>
-
-  <!-- SIDE PANEL -->
-  <div class="panel" id="panel">
-
-    <div class="panel-empty" id="panel-empty">
-      <div class="panel-empty-icon">🌍</div>
-      <p>Click any country on the map to explore its voting alignment with others.</p>
-    </div>
-
-    <div class="panel-content" id="panel-content" style="display:none">
-
-      <div class="panel-top">
-        <div class="panel-flag-name">
-          <span class="panel-flag" id="panel-flag"></span>
-          <div>
-            <h2 id="panel-name"></h2>
-            <div class="panel-sub" id="panel-sub"></div>
+      <div class="dashboard-controls header-controls">
+        <div class="control-group">
+          <label>Decade</label>
+          <select id="decade-select"></select>
+        </div>
+        <div class="control-group">
+          <label>Subject</label>
+          <select id="subject-select"></select>
+        </div>
+        <div class="control-group">
+          <label>View</label>
+          <div class="mode-toggle">
+            <button class="mode-btn active" id="btn-map" onclick="setMode('map')">Map</button>
+            <button class="mode-btn" id="btn-heatmap" onclick="setMode('heatmap')">Heatmap</button>
           </div>
         </div>
-        <button class="panel-close" onclick="clearSelection()">✕</button>
-      </div>
-
-      <div class="panel-gauge-wrap">
-        <div class="gauge-row">
-          <span class="gauge-label">Avg. Alignment</span>
-          <span class="gauge-val" id="gauge-val"></span>
-        </div>
-        <div class="gauge-track">
-          <div class="gauge-fill" id="gauge-fill"></div>
-        </div>
-        <div class="gauge-meta" id="gauge-meta"></div>
-
-        <!-- Vote distribution for selected country -->
-        <div class="vote-beh" id="vote-beh">
-          <div class="vb-title">Own vote distribution</div>
-          <div class="vb-rows" id="vb-rows"></div>
+        <div class="legend-bar">
+          <span class="legend-lo">0% agree</span>
+          <div class="legend-gradient" style="background:linear-gradient(to right,#c0392b,#e2b44b,#27ae60)"></div>
+          <span class="legend-hi">100% agree</span>
         </div>
       </div>
+    </header>
 
-      <!-- Tabs: single-country view -->
-      <div class="panel-tabs" id="panel-tabs">
-        <button class="tab-btn active" id="tab-btn-countries" onclick="setTab('countries')">Countries</button>
-        <button class="tab-btn" id="tab-btn-subjects" onclick="setTab('subjects')">By Subject</button>
-        <button class="tab-btn" id="tab-btn-trend" onclick="setTab('trend')">Trend</button>
-      </div>
-
-      <!-- Tab: Countries -->
-      <div class="tab-pane" id="tab-countries">
-        <div class="panel-list-header">
-          <span>Country</span>
-          <span>Agreement</span>
+    <div class="dashboard-main">
+      <div class="map-wrap" id="map-wrap">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading map...</p>
         </div>
-        <div class="panel-body" id="panel-body"></div>
-      </div>
-
-      <!-- Tab: Subject Profile -->
-      <div class="tab-pane" id="tab-subjects" style="display:none">
-        <div class="subject-list" id="subject-list"></div>
-      </div>
-
-      <!-- Tab: Decade Trend -->
-      <div class="tab-pane" id="tab-trend" style="display:none">
-        <div class="trend-wrap">
-          <canvas id="trend-canvas"></canvas>
+        <div class="tooltip" id="tooltip"></div>
+        <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="zoom-controls">
+          <button class="zoom-btn" onclick="mapZoom(1.4)" title="Zoom in">+</button>
+          <button class="zoom-btn" onclick="mapZoom(1/1.4)" title="Zoom out">-</button>
+          <button class="zoom-btn" onclick="mapReset()" title="Reset" style="font-size:11px">R</button>
         </div>
       </div>
 
-      <div class="panel-legend">
-        <div class="legend-title-sm">Agreement score</div>
-        <div class="legend-grad-bar"></div>
-        <div class="legend-labs"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div id="heatmap-wrap">
+        <div class="heatmap-meta" id="heatmap-meta">Loading heatmap...</div>
+        <div id="heatmap-canvas-wrap">
+          <canvas id="heatmap-canvas"></canvas>
+          <div id="heatmap-tooltip"></div>
+        </div>
       </div>
 
-      <!-- ── COMPARISON PANE (slides in when a sidebar country is clicked) ── -->
-      <div class="compare-pane" id="compare-pane" style="display:none">
-        <div class="cmp-header">
-          <button class="cmp-back" onclick="closeComparison()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2.5"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-            Back
-          </button>
-          <div class="cmp-vs-row">
-            <span class="cmp-flag" id="cmp-flag-a"></span>
-            <span class="cmp-name" id="cmp-name-a"></span>
-            <span class="cmp-vs">vs</span>
-            <span class="cmp-flag" id="cmp-flag-b"></span>
-            <span class="cmp-name" id="cmp-name-b"></span>
+      <div class="panel" id="panel">
+        <div class="panel-empty" id="panel-empty">
+          <div class="panel-empty-icon">Globe</div>
+          <p>Click any country on the map to explore its voting alignment with others.</p>
+        </div>
+
+        <div class="panel-content" id="panel-content" style="display:none">
+          <div class="panel-top">
+            <div class="panel-flag-name">
+              <span class="panel-flag" id="panel-flag"></span>
+              <div>
+                <h2 id="panel-name"></h2>
+                <div class="panel-sub" id="panel-sub"></div>
+              </div>
+            </div>
+            <button class="panel-close" onclick="clearSelection()">X</button>
           </div>
-        </div>
 
-        <div class="cmp-score-strip">
-          <span class="cmp-score-val" id="cmp-score-val"></span>
-          <span class="cmp-score-label">overall agreement</span>
-          <div class="cmp-score-track">
-            <div class="cmp-score-fill" id="cmp-score-fill"></div>
+          <div class="panel-gauge-wrap">
+            <div class="gauge-row">
+              <span class="gauge-label">Avg. Alignment</span>
+              <span class="gauge-val" id="gauge-val"></span>
+            </div>
+            <div class="gauge-track">
+              <div class="gauge-fill" id="gauge-fill"></div>
+            </div>
+            <div class="gauge-meta" id="gauge-meta"></div>
+
+            <div class="vote-beh" id="vote-beh">
+              <div class="vb-title">Own vote distribution</div>
+              <div class="vb-rows" id="vb-rows"></div>
+            </div>
           </div>
-        </div>
 
-        <!-- Comparison tabs -->
-        <div class="panel-tabs">
-          <button class="tab-btn active" id="ctab-btn-behaviour" onclick="setCmpTab('behaviour')">Behaviour</button>
-          <button class="tab-btn" id="ctab-btn-subjects"  onclick="setCmpTab('subjects')">Subjects</button>
-          <button class="tab-btn" id="ctab-btn-trend"     onclick="setCmpTab('trend')">Trend</button>
-        </div>
+          <div class="panel-tabs" id="panel-tabs">
+            <button class="tab-btn active" id="tab-btn-countries" onclick="setTab('countries')">Countries</button>
+            <button class="tab-btn" id="tab-btn-subjects" onclick="setTab('subjects')">By Subject</button>
+            <button class="tab-btn" id="tab-btn-trend" onclick="setTab('trend')">Trend</button>
+          </div>
 
-        <!-- Behaviour tab -->
-        <div class="ctab-pane" id="ctab-behaviour">
-          <div class="cmp-section-body" id="cmp-beh-content"></div>
-        </div>
+          <div class="tab-pane" id="tab-countries">
+            <div class="panel-list-header">
+              <span>Country</span>
+              <span>Agreement</span>
+            </div>
+            <div class="panel-body" id="panel-body"></div>
+          </div>
 
-        <!-- Subjects tab -->
-        <div class="ctab-pane" id="ctab-subjects" style="display:none">
-          <div class="subject-list" id="cmp-subject-list"></div>
-        </div>
+          <div class="tab-pane" id="tab-subjects" style="display:none">
+            <div class="subject-list" id="subject-list"></div>
+          </div>
 
-        <!-- Trend tab -->
-        <div class="ctab-pane" id="ctab-trend" style="display:none">
-          <div class="trend-wrap">
-            <canvas id="cmp-trend-canvas"></canvas>
+          <div class="tab-pane" id="tab-trend" style="display:none">
+            <div class="trend-wrap">
+              <canvas id="trend-canvas"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-legend">
+            <div class="legend-title-sm">Agreement score</div>
+            <div class="legend-grad-bar"></div>
+            <div class="legend-labs"><span>0%</span><span>50%</span><span>100%</span></div>
+          </div>
+
+          <div class="compare-pane" id="compare-pane" style="display:none">
+            <div class="cmp-header">
+              <button class="cmp-back" onclick="closeComparison()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+              </button>
+              <div class="cmp-vs-row">
+                <span class="cmp-flag" id="cmp-flag-a"></span>
+                <span class="cmp-name" id="cmp-name-a"></span>
+                <span class="cmp-vs">vs</span>
+                <span class="cmp-flag" id="cmp-flag-b"></span>
+                <span class="cmp-name" id="cmp-name-b"></span>
+              </div>
+            </div>
+
+            <div class="cmp-score-strip">
+              <span class="cmp-score-val" id="cmp-score-val"></span>
+              <span class="cmp-score-label">overall agreement</span>
+              <div class="cmp-score-track">
+                <div class="cmp-score-fill" id="cmp-score-fill"></div>
+              </div>
+            </div>
+
+            <div class="panel-tabs">
+              <button class="tab-btn active" id="ctab-btn-behaviour" onclick="setCmpTab('behaviour')">Behaviour</button>
+              <button class="tab-btn" id="ctab-btn-subjects" onclick="setCmpTab('subjects')">Subjects</button>
+              <button class="tab-btn" id="ctab-btn-trend" onclick="setCmpTab('trend')">Trend</button>
+            </div>
+
+            <div class="ctab-pane" id="ctab-behaviour">
+              <div class="cmp-section-body" id="cmp-beh-content"></div>
+            </div>
+
+            <div class="ctab-pane" id="ctab-subjects" style="display:none">
+              <div class="subject-list" id="cmp-subject-list"></div>
+            </div>
+
+            <div class="ctab-pane" id="ctab-trend" style="display:none">
+              <div class="trend-wrap">
+                <canvas id="cmp-trend-canvas"></canvas>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-</div>
 
-<script src="un-data.js"></script>
-<script src="un-script.js"></script>
-
+  <script src="un-data.js"></script>
+  <script src="un-script.js"></script>
 </body>
 </html>

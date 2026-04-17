@@ -1,68 +1,76 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Passport Explorer — Visa-Free World Map</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passport Explorer - Visa-Free World Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../site.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<header>
-  <div class="header-left">
-    <a href="../home.html" class="home-btn" title="Back to home">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      The Atlas
-    </a>
-    <div>
-      <h1>🌍 Passport Explorer</h1>
-      <p>Click a country to see its visa-free travel access</p>
-    </div>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Visa-free</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Visa on arrival</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> ETA / e-Visa / Visa required</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> No admission</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Selected</div>
-  </div>
-</header>
-
-<div class="main">
-  <div class="sidebar">
-    <div class="sidebar-top">
-      <h2 id="selected-name">Select a country</h2>
-      <p id="selected-sub">Click any country on the map</p>
-    </div>
-    <div class="stats" id="stats" style="display:none">
-      <div class="stat">
-        <span class="stat-num green" id="stat-vf">0</span>
-        <span class="stat-label">Visa-free</span>
+  <div class="dashboard-shell dashboard-shell--passport">
+    <header class="dashboard-header">
+      <div class="header-left">
+        <a href="../home.html" class="home-btn" title="Back to home">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Robin's Maps
+        </a>
+        <div class="header-title">
+          <p class="eyebrow">Mobility</p>
+          <h1>Passport Explorer</h1>
+          <p>Click a country to see its visa-free travel access.</p>
+        </div>
       </div>
-      <div class="stat">
-        <span class="stat-num yellow" id="stat-voa">0</span>
-        <span class="stat-label">On arrival</span>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Visa-free</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Visa on arrival</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> ETA / e-Visa / Visa required</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> No admission</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Selected</div>
+      </div>
+    </header>
+
+    <div class="dashboard-main">
+      <div class="sidebar">
+        <div class="sidebar-top">
+          <h2 id="selected-name">Select a country</h2>
+          <p id="selected-sub">Click any country on the map.</p>
+        </div>
+        <div class="stats" id="stats" style="display:none">
+          <div class="stat">
+            <span class="stat-num green" id="stat-vf">0</span>
+            <span class="stat-label">Visa-free</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num yellow" id="stat-voa">0</span>
+            <span class="stat-label">On arrival</span>
+          </div>
+        </div>
+        <div class="search-wrap" id="search-wrap" style="display:none">
+          <input type="text" id="search" placeholder="Filter destinations..." />
+        </div>
+        <div class="country-list" id="country-list">
+          <div class="empty-state">Select a country on the map to explore its visa-free destinations.</div>
+        </div>
+      </div>
+
+      <div class="map-wrap">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading map and visa data...</p>
+        </div>
+        <div class="tooltip" id="tooltip"></div>
+        <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
     </div>
-    <div class="search-wrap" id="search-wrap" style="display:none">
-      <input type="text" id="search" placeholder="Filter destinations…" />
-    </div>
-    <div class="country-list" id="country-list">
-      <div class="empty-state">Select a country on the map to explore its visa-free destinations.</div>
-    </div>
   </div>
 
-  <div class="map-wrap">
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p>Loading map & visa data…</p>
-    </div>
-    <div class="tooltip" id="tooltip"></div>
-    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
-  </div>
-</div>
-
-<script src="map.js"></script>
+  <script src="map.js"></script>
 </body>
 </html>

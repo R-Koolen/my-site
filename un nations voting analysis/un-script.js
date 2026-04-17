@@ -1,8 +1,8 @@
-// Global data — populated by initApp() after JSON is fetched from un_voting_data.json
+﻿// Global data â€” populated by initApp() after JSON is fetched from un_voting_data.json
 let meta, rawData, countryStats;
 
-// lookup:    "decade|subject" → { cA: { cB: score } }
-// breakdown: "decade|subject" → { cA: { cB: [pct_yy, pct_nn, pct_aa] } }
+// lookup:    "decade|subject" â†’ { cA: { cB: score } }
+// breakdown: "decade|subject" â†’ { cA: { cB: [pct_yy, pct_nn, pct_aa] } }
 const lookup = {};
 const breakdown = {};
 
@@ -40,7 +40,7 @@ function breakdownBar(score, bd) {
     `</div>`;
 }
 
-// ─── AVERAGE ALIGNMENT (for default map view) ────────────────────────────────
+// â”€â”€â”€ AVERAGE ALIGNMENT (for default map view) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function getAverageAlignment(iso3) {
   const data = lookup[getKey()];
   if (!data || !data[iso3]) return null;
@@ -49,7 +49,7 @@ function getAverageAlignment(iso3) {
   return others.reduce((a, b) => a + b, 0) / others.length;
 }
 
-// ─── COLOUR SCALE ────────────────────────────────────────────────────────────
+// â”€â”€â”€ COLOUR SCALE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function lerp(a, b, t) {
   const ah = parseInt(a.slice(1),16), bh = parseInt(b.slice(1),16);
   const ar=(ah>>16)&0xff, ag=(ah>>8)&0xff, ab=ah&0xff;
@@ -64,7 +64,7 @@ function scoreColor(score) {
   return '#e2b44b';
 }
 
-// ─── COUNTRY NAMES & FLAGS ───────────────────────────────────────────────────
+// â”€â”€â”€ COUNTRY NAMES & FLAGS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const NAMES = {
   AFG:"Afghanistan",ALB:"Albania",DZA:"Algeria",AND:"Andorra",AGO:"Angola",
   ATG:"Antigua & Barbuda",ARG:"Argentina",ARM:"Armenia",AUS:"Australia",AUT:"Austria",
@@ -74,7 +74,7 @@ const NAMES = {
   BFA:"Burkina Faso",BDI:"Burundi",CPV:"Cabo Verde",KHM:"Cambodia",CMR:"Cameroon",
   CAN:"Canada",CAF:"Cent. African Rep.",TCD:"Chad",CHL:"Chile",CHN:"China",
   COL:"Colombia",COM:"Comoros",COD:"Congo (DRC)",COG:"Congo (Rep.)",CRI:"Costa Rica",
-  CIV:"Côte d'Ivoire",HRV:"Croatia",CUB:"Cuba",CYP:"Cyprus",CZE:"Czechia",
+  CIV:"CÃ´te d'Ivoire",HRV:"Croatia",CUB:"Cuba",CYP:"Cyprus",CZE:"Czechia",
   DNK:"Denmark",DJI:"Djibouti",DMA:"Dominica",DOM:"Dominican Rep.",ECU:"Ecuador",
   EGY:"Egypt",SLV:"El Salvador",GNQ:"Eq. Guinea",ERI:"Eritrea",EST:"Estonia",
   SWZ:"Eswatini",ETH:"Ethiopia",FJI:"Fiji",FIN:"Finland",FRA:"France",GAB:"Gabon",
@@ -94,12 +94,12 @@ const NAMES = {
   PAN:"Panama",PNG:"Papua New Guinea",PRY:"Paraguay",PER:"Peru",PHL:"Philippines",
   POL:"Poland",PRT:"Portugal",QAT:"Qatar",ROU:"Romania",RUS:"Russia",RWA:"Rwanda",
   KNA:"St Kitts & Nevis",LCA:"St Lucia",VCT:"St Vincent",WSM:"Samoa",SMR:"San Marino",
-  STP:"São Tomé",SAU:"Saudi Arabia",SEN:"Senegal",SRB:"Serbia",SYC:"Seychelles",
+  STP:"SÃ£o TomÃ©",SAU:"Saudi Arabia",SEN:"Senegal",SRB:"Serbia",SYC:"Seychelles",
   SLE:"Sierra Leone",SGP:"Singapore",SVK:"Slovakia",SVN:"Slovenia",SLB:"Solomon Is.",
   SOM:"Somalia",ZAF:"South Africa",SSD:"South Sudan",ESP:"Spain",LKA:"Sri Lanka",
   SDN:"Sudan",SUR:"Suriname",SWE:"Sweden",CHE:"Switzerland",SYR:"Syria",
   TJK:"Tajikistan",TZA:"Tanzania",THA:"Thailand",TLS:"Timor-Leste",TGO:"Togo",
-  TON:"Tonga",TTO:"Trinidad & Tobago",TUN:"Tunisia",TUR:"Türkiye",TKM:"Turkmenistan",
+  TON:"Tonga",TTO:"Trinidad & Tobago",TUN:"Tunisia",TUR:"TÃ¼rkiye",TKM:"Turkmenistan",
   TUV:"Tuvalu",UGA:"Uganda",UKR:"Ukraine",ARE:"UAE",GBR:"United Kingdom",
   USA:"United States",URY:"Uruguay",UZB:"Uzbekistan",VUT:"Vanuatu",VEN:"Venezuela",
   VNM:"Vietnam",YEM:"Yemen",ZMB:"Zambia",ZWE:"Zimbabwe",
@@ -136,11 +136,11 @@ function getFlag(iso3) {
     URY:"UY",UZB:"UZ",VUT:"VU",VEN:"VE",VNM:"VN",YEM:"YE",ZMB:"ZM",ZWE:"ZW"
   };
   const iso2 = map[iso3];
-  if (!iso2) return "🌐";
+  if (!iso2) return "ðŸŒ";
   return iso2.split("").map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join("");
 }
 
-// ─── GROUPING METADATA ───────────────────────────────────────────────────────
+// â”€â”€â”€ GROUPING METADATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Continent grouping
 const CONTINENT = {
@@ -299,7 +299,7 @@ const RELIGION_COLORS = {
   "Jewish":       "#a97de8",
 };
 
-// ─── POPULATE SELECTS ────────────────────────────────────────────────────────
+// â”€â”€â”€ POPULATE SELECTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const decadeSelect  = document.getElementById('decade-select');
 const subjectSelect = document.getElementById('subject-select');
 
@@ -316,7 +316,7 @@ function populateSelects() {
     if (s === 'all') return;
     const o = document.createElement('option');
     o.value = s;
-    o.textContent = s.replace(/--/g, ' › ').replace(/UN\. /g, 'UN ');
+    o.textContent = s.replace(/--/g, ' â€º ').replace(/UN\. /g, 'UN ');
     subjectSelect.appendChild(o);
   });
   const allOpt = document.createElement('option');
@@ -334,13 +334,13 @@ function onFilterChange() {
   updatePanel();
 }
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let selectedCountry = null;
 let currentMode = 'map';
-// Map display mode: 'avg' (default — average alignment) or 'selected' (clicked country)
+// Map display mode: 'avg' (default â€” average alignment) or 'selected' (clicked country)
 let mapColorMode = 'avg';
 
-// ─── MAP ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ MAP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const svg = document.getElementById('world-map');
 const tooltip = document.getElementById('tooltip');
 let zoomScale = 1, panX = 0, panY = 0;
@@ -374,7 +374,7 @@ async function initMap() {
 }
 
 function buildMap(world) {
-  // Natural Earth I — same projection as rd.html
+  // Natural Earth I â€” same projection as rd.html
   const proj = d3.geoNaturalEarth1()
     .scale(320).translate([VW/2, VH/2]);
   const pathFn = d3.geoPath().projection(proj);
@@ -473,7 +473,7 @@ function applyTransform() {
   svg.setAttribute('viewBox', `${x} ${y} ${w} ${h}`);
 }
 
-// ─── MAP HOVER/CLICK ─────────────────────────────────────────────────────────
+// â”€â”€â”€ MAP HOVER/CLICK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function onCountryHover(e) {
   if (isDragging) return;
   const iso3 = this.getAttribute('data-iso3');
@@ -490,10 +490,10 @@ function onCountryHover(e) {
         const [yy, nn, aa] = bd;
         const dis = Math.max(0, 1 - score);
         html += `<div class="tl" style="font-size:0.68rem;margin-top:2px">` +
-          `<span style="color:#27ae60">▪ Yes ${(yy*100).toFixed(0)}%</span> ` +
-          `<span style="color:#c0392b">▪ No ${(nn*100).toFixed(0)}%</span> ` +
-          `<span style="color:#e2b44b">▪ Abst ${(aa*100).toFixed(0)}%</span> ` +
-          `<span style="color:#4a5a6e">▪ Dis ${(dis*100).toFixed(0)}%</span></div>`;
+          `<span style="color:#27ae60">â–ª Yes ${(yy*100).toFixed(0)}%</span> ` +
+          `<span style="color:#c0392b">â–ª No ${(nn*100).toFixed(0)}%</span> ` +
+          `<span style="color:#e2b44b">â–ª Abst ${(aa*100).toFixed(0)}%</span> ` +
+          `<span style="color:#4a5a6e">â–ª Dis ${(dis*100).toFixed(0)}%</span></div>`;
       }
     } else {
       html += `<div class="tl">No voting data vs ${getName(selectedCountry)}</div>`;
@@ -550,7 +550,7 @@ function clearSelection() {
   document.getElementById('panel-content').style.display = 'none';
 }
 
-// ─── UPDATE MAP COLORS ───────────────────────────────────────────────────────
+// â”€â”€â”€ UPDATE MAP COLORS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function updateMap() {
   if (selectedCountry) {
     // Color by alignment with selected country
@@ -596,12 +596,12 @@ function updateHeaderSub() {
   const sub = document.getElementById('header-sub');
   if (sub) {
     sub.textContent = selectedCountry
-      ? `Showing alignment with ${getName(selectedCountry)} · ${d} · ${s}`
-      : `Showing average global alignment · ${d} · ${s}`;
+      ? `Showing alignment with ${getName(selectedCountry)} Â· ${d} Â· ${s}`
+      : `Showing average global alignment Â· ${d} Â· ${s}`;
   }
 }
 
-// ─── PANEL TABS ──────────────────────────────────────────────────────────────
+// â”€â”€â”€ PANEL TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let currentTab = 'countries';
 
 function setTab(tab) {
@@ -614,7 +614,7 @@ function setTab(tab) {
   if (tab === 'trend')    requestAnimationFrame(renderTrendChart);
 }
 
-// ─── PANEL ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ PANEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function updatePanel() {
   if (!selectedCountry) {
     updateHeaderSub();
@@ -633,15 +633,15 @@ function updatePanel() {
   const d = decadeSelect.value;
   const s = subjectSelect.value;
   const dLabel = d === 'all' ? 'All time' : d + 's';
-  const sLabel = s === 'all' ? 'All subjects' : s.replace(/--/g,' › ');
-  document.getElementById('panel-sub').textContent = `${dLabel} · ${sLabel}`;
+  const sLabel = s === 'all' ? 'All subjects' : s.replace(/--/g,' â€º ');
+  document.getElementById('panel-sub').textContent = `${dLabel} Â· ${sLabel}`;
 
   document.getElementById('gauge-val').textContent = (avg*100).toFixed(1) + '%';
   const fill = document.getElementById('gauge-fill');
   fill.style.width = (avg*100) + '%';
   fill.style.background = `linear-gradient(to right, #1a4a2e, ${scoreColor(avg)})`;
   document.getElementById('gauge-meta').textContent =
-    `${entries.length} partner countries · avg alignment`;
+    `${entries.length} partner countries Â· avg alignment`;
 
   // Vote distribution for this country
   renderVoteBreakdown(selectedCountry);
@@ -677,7 +677,7 @@ function selectFromPanel(iso3) {
   openComparison(iso3);
 }
 
-// ─── VOTE BREAKDOWN (under gauge) ────────────────────────────────────────────
+// â”€â”€â”€ VOTE BREAKDOWN (under gauge) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderVoteBreakdown(iso3) {
   const vbEl = document.getElementById('vote-beh');
   const rows = document.getElementById('vb-rows');
@@ -695,7 +695,7 @@ function renderVoteBreakdown(iso3) {
   ).join('');
 }
 
-// ─── COMPARISON PANE ─────────────────────────────────────────────────────────
+// â”€â”€â”€ COMPARISON PANE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let compareCountry = null;
 let currentCmpTab  = 'behaviour';
 
@@ -745,7 +745,7 @@ function setCmpTab(tab) {
   if (tab === 'trend')     requestAnimationFrame(renderCmpTrend);
 }
 
-// ── Behaviour tab ─────────────────────────────────────────────────────────────
+// â”€â”€ Behaviour tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderCmpBehaviour() {
   const cA = selectedCountry, cB = compareCountry;
   const el = document.getElementById('cmp-beh-content');
@@ -771,7 +771,7 @@ function renderCmpBehaviour() {
     ).join('');
   }
 
-  // Pair breakdown — use all|all key for widest coverage; validate values are real numbers
+  // Pair breakdown â€” use all|all key for widest coverage; validate values are real numbers
   const bdRaw = breakdown['all|all']?.[cA]?.[cB];
   const score  = lookup['all|all']?.[cA]?.[cB];
   const bd = (bdRaw && typeof bdRaw[0] === 'number' && isFinite(bdRaw[0])) ? bdRaw : null;
@@ -810,17 +810,17 @@ function renderCmpBehaviour() {
 
   el.innerHTML = `
     <div class="cmp-beh-section">
-      <div class="cmp-beh-title">Vote distribution — ${getName(cA)}</div>
+      <div class="cmp-beh-title">Vote distribution â€” ${getName(cA)}</div>
       <div class="cmp-beh-country">${countryBars(cA)}</div>
     </div>
     <div class="cmp-beh-section">
-      <div class="cmp-beh-title">Vote distribution — ${getName(cB)}</div>
+      <div class="cmp-beh-title">Vote distribution â€” ${getName(cB)}</div>
       <div class="cmp-beh-country">${countryBars(cB)}</div>
     </div>
     ${pairHtml}`;
 }
 
-// ── Subjects tab ──────────────────────────────────────────────────────────────
+// â”€â”€ Subjects tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderCmpSubjects() {
   const cA = selectedCountry, cB = compareCountry;
   const subjects = meta.subjects.filter(s => s !== 'all');
@@ -843,7 +843,7 @@ function renderCmpSubjects() {
   list.innerHTML = rows.map(({ subj, score }) => {
     const pct = (score * 100).toFixed(1);
     const col = scoreColor(score);
-    const name = subj.replace(/--/g, ' › ');
+    const name = subj.replace(/--/g, ' â€º ');
     return `<div class="subject-item">
       <div class="subj-name">${name}</div>
       <div class="subj-right">
@@ -854,7 +854,7 @@ function renderCmpSubjects() {
   }).join('');
 }
 
-// ── Trend tab ─────────────────────────────────────────────────────────────────
+// â”€â”€ Trend tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderCmpTrend() {
   const cA = selectedCountry, cB = compareCountry;
   const decades = meta.decades.filter(d => d !== 'all');
@@ -877,7 +877,7 @@ function renderCmpTrend() {
 
   if (!pts.length) {
     ctx.fillStyle = '#5a6a7e';
-    ctx.font = '12px Syne, sans-serif';
+    ctx.font = '12px Manrope, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('No decade data for this pair', W / 2, H / 2);
     return;
@@ -893,12 +893,12 @@ function renderCmpTrend() {
   [0, 0.25, 0.5, 0.75, 1].forEach(v => {
     const y = PAD.top + cH * (1 - v);
     ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + cW, y); ctx.stroke();
-    ctx.fillStyle = '#5a6a7e'; ctx.font = '9px DM Mono, monospace';
+    ctx.fillStyle = '#5a6a7e'; ctx.font = '9px Manrope, sans-serif';
     ctx.textAlign = 'right'; ctx.fillText((v * 100).toFixed(0) + '%', PAD.left - 5, y + 3);
   });
 
   // X labels
-  ctx.fillStyle = '#5a6a7e'; ctx.font = '9px DM Mono, monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#5a6a7e'; ctx.font = '9px Manrope, sans-serif'; ctx.textAlign = 'center';
   pts.forEach(({ decade }, i) => ctx.fillText(decade + 's', PAD.left + i * xStep, H - PAD.bottom + 14));
 
   // Line + fill
@@ -926,12 +926,12 @@ function renderCmpTrend() {
     ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
     ctx.fillStyle = col; ctx.fill();
     ctx.strokeStyle = '#0a0e14'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.fillStyle = col; ctx.font = 'bold 9px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillStyle = col; ctx.font = '700 9px Manrope, sans-serif'; ctx.textAlign = 'center';
     ctx.fillText((avg * 100).toFixed(0) + '%', x, y - 8);
   });
 }
 
-// ─── SUBJECT PROFILE TAB ─────────────────────────────────────────────────────
+// â”€â”€â”€ SUBJECT PROFILE TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderSubjectProfile() {
   if (!selectedCountry) return;
   const compCountry = null; // future: allow benchmark selection
@@ -967,7 +967,7 @@ function renderSubjectProfile() {
   list.innerHTML = rows.map(({ subj, score }) => {
     const pct = (score * 100).toFixed(1);
     const col = scoreColor(score);
-    const name = subj.replace(/--/g, ' › ');
+    const name = subj.replace(/--/g, ' â€º ');
     return `<div class="subject-item">
       <div class="subj-name">${name}</div>
       <div class="subj-right">
@@ -978,7 +978,7 @@ function renderSubjectProfile() {
   }).join('');
 }
 
-// ─── DECADE TREND TAB ────────────────────────────────────────────────────────
+// â”€â”€â”€ DECADE TREND TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderTrendChart() {
   if (!selectedCountry) return;
   const s = subjectSelect.value;
@@ -1010,7 +1010,7 @@ function renderTrendChart() {
 
   if (!pts.length) {
     ctx.fillStyle = '#5a6a7e';
-    ctx.font = '12px Syne, sans-serif';
+    ctx.font = '12px Manrope, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('No decade data available', W/2, H/2);
     return;
@@ -1020,7 +1020,7 @@ function renderTrendChart() {
   const cW = W - PAD.left - PAD.right;
   const cH = H - PAD.top - PAD.bottom;
 
-  // Y axis: 0–100%
+  // Y axis: 0â€“100%
   const yMin = 0, yMax = 1;
   const xStep = cW / Math.max(pts.length - 1, 1);
 
@@ -1034,14 +1034,14 @@ function renderTrendChart() {
     ctx.lineTo(PAD.left + cW, y);
     ctx.stroke();
     ctx.fillStyle = '#5a6a7e';
-    ctx.font = '9px DM Mono, monospace';
+    ctx.font = '9px Manrope, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText((v*100).toFixed(0) + '%', PAD.left - 5, y + 3);
   });
 
   // X axis labels
   ctx.fillStyle = '#5a6a7e';
-  ctx.font = '9px DM Mono, monospace';
+  ctx.font = '9px Manrope, sans-serif';
   ctx.textAlign = 'center';
   pts.forEach(({ decade }, i) => {
     const x = PAD.left + i * xStep;
@@ -1086,13 +1086,13 @@ function renderTrendChart() {
     ctx.stroke();
     // label above dot
     ctx.fillStyle = col;
-    ctx.font = 'bold 9px DM Mono, monospace';
+    ctx.font = '700 9px Manrope, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText((avg*100).toFixed(0) + '%', x, y - 8);
   });
 }
 
-// ─── HEATMAP ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ HEATMAP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let heatmapCountries = [];
 let heatmapMat = null;
 let heatmapGroupMode = 'none'; // 'none' | 'continent' | 'regime' | 'religion'
@@ -1247,7 +1247,7 @@ function renderHeatmap() {
 
   // Labels
   ctx.fillStyle = '#5a6a7e';
-  ctx.font = `${Math.min(10, cell-1)}px DM Mono, monospace`;
+  ctx.font = `${Math.min(10, cell-1)}px Manrope, sans-serif`;
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
   const labelEvery = Math.max(1, Math.ceil(10 / cell));
@@ -1280,7 +1280,7 @@ function renderHeatmap() {
   const d = decadeSelect.options[decadeSelect.selectedIndex].text;
   const s = subjectSelect.options[subjectSelect.selectedIndex].text;
   document.getElementById('heatmap-meta').innerHTML =
-    `<strong>${n}</strong> countries · <strong>${d}</strong> · <strong>${s}</strong> · hover to inspect`;
+    `<strong>${n}</strong> countries Â· <strong>${d}</strong> Â· <strong>${s}</strong> Â· hover to inspect`;
 
   // Update group legend
   const legendEl = document.getElementById('heatmap-group-legend');
@@ -1321,7 +1321,7 @@ function renderHeatmap() {
     if (groupMap) {
       const gA = groupMap[cA], gB = groupMap[cB];
       if (gA) extra += `<span style="color:var(--muted);font-size:0.68rem">${gA}</span>`;
-      if (gA && gB && gA !== gB) extra += ` <span style="color:var(--muted)">↔</span> <span style="color:var(--muted);font-size:0.68rem">${gB}</span>`;
+      if (gA && gB && gA !== gB) extra += ` <span style="color:var(--muted)">â†”</span> <span style="color:var(--muted);font-size:0.68rem">${gB}</span>`;
       extra = extra ? `<div style="margin-bottom:3px">${extra}</div>` : '';
     }
     const bd = score >= 0 ? getBreakdown(cA, cB) : null;
@@ -1329,12 +1329,12 @@ function renderHeatmap() {
       const [yy, nn, aa] = bd;
       const dis = Math.max(0, 1 - score);
       return `<div style="margin-top:4px;font-size:0.68rem;color:var(--muted)">` +
-        `<span style="color:#27ae60">▪ Yes ${(yy*100).toFixed(0)}%</span> ` +
-        `<span style="color:#c0392b">▪ No ${(nn*100).toFixed(0)}%</span> ` +
-        `<span style="color:#e2b44b">▪ Abst ${(aa*100).toFixed(0)}%</span> ` +
-        `<span style="color:#4a5a6e">▪ Dis ${(dis*100).toFixed(0)}%</span></div>`;
+        `<span style="color:#27ae60">â–ª Yes ${(yy*100).toFixed(0)}%</span> ` +
+        `<span style="color:#c0392b">â–ª No ${(nn*100).toFixed(0)}%</span> ` +
+        `<span style="color:#e2b44b">â–ª Abst ${(aa*100).toFixed(0)}%</span> ` +
+        `<span style="color:#4a5a6e">â–ª Dis ${(dis*100).toFixed(0)}%</span></div>`;
     })() : '';
-    ht.innerHTML = `<strong>${getName(cA)} × ${getName(cB)}</strong>${extra}` +
+    ht.innerHTML = `<strong>${getName(cA)} Ã— ${getName(cB)}</strong>${extra}` +
       (score >= 0
         ? `<span style="color:${scoreColor(score)}">${(score*100).toFixed(1)}% agreement</span>${bdHtml}`
         : '<span style="color:var(--muted)">No data</span>');
@@ -1353,7 +1353,7 @@ function renderHeatmap() {
   };
 }
 
-// ─── MODE SWITCH ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ MODE SWITCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function setMode(mode) {
   currentMode = mode;
   document.getElementById('btn-map').classList.toggle('active', mode==='map');
@@ -1363,7 +1363,7 @@ function setMode(mode) {
   if (mode === 'heatmap') renderHeatmap();
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Called by un-data.js after un_voting_data.json is fetched.
 // bundle = { meta: {countries, decades, subjects}, data: {"decade|subject": [[cA,cB,score,yy,nn,aa],...]} }
 function initApp(bundle) {

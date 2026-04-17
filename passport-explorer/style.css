@@ -1,305 +1,101 @@
-:root {
-  --bg: #424242;
-  --surface: #161b22;
-  --border: #21262d;
-  --text: #e6edf3;
-  --muted: #7d8590;
-  --accent: #58a6ff;
-  --green: #3fb950;
-  --yellow: #d29922;
-  --orange: #e07a30;
-  --red: #f85149;
-  --gray: #30363d;
-  --orange: #e07c32;
-  --hover: #3a4a5c;
+﻿:root {
+  --green: #66d08b;
+  --yellow: #dcb868;
+  --orange: #d98a54;
+  --red: #d66565;
+  --gray: rgba(125, 140, 160, 0.28);
+  --default-country: #31445a;
+  --hover: #56718f;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 
-/* ── HEADER ── */
-header {
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  flex-shrink: 0;
+.dashboard-shell--passport .sidebar {
+  width: 320px;
 }
 
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.home-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.15s;
-}
- 
-.home-btn:hover {
-  color: var(--accent);
-}
-
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  letter-spacing: 0.02em;
-  color: var(--text);
-}
-
-header p {
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-/* ── LEGEND ── */
-.legend {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-}
-
-/* ── LAYOUT ── */
-.main {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* ── SIDEBAR ── */
-.sidebar {
-  width: 260px;
-  flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.sidebar-top {
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.sidebar-top h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.sidebar-top p {
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-
-/* ── STATS ── */
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.stat {
-  background: var(--bg);
-  border-radius: 6px;
-  padding: 10px;
-  text-align: center;
-}
-
-.stat-num {
-  font-size: 1.4rem;
-  font-weight: 700;
-  display: block;
-}
-
-.stat-label {
-  font-size: 0.65rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.stat-num.green  { color: var(--green); }
-.stat-num.yellow { color: var(--yellow); }
-.stat-num.red    { color: var(--red); }
-
-/* ── SEARCH ── */
-.search-wrap {
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.search-wrap input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  padding: 7px 10px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  outline: none;
-}
-
-.search-wrap input:focus {
-  border-color: var(--accent);
-}
-
-/* ── COUNTRY LIST ── */
 .country-list {
-  flex: 1;
-  overflow-y: auto;
   padding: 8px 0;
 }
-
-.country-list::-webkit-scrollbar { width: 4px; }
-.country-list::-webkit-scrollbar-track { background: transparent; }
-.country-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 .country-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 16px;
-  font-size: 0.78rem;
+  gap: 10px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
   cursor: pointer;
   border-left: 2px solid transparent;
-  transition: background 0.15s;
 }
 
-.country-item:hover { background: var(--gray); }
+.country-item:hover {
+  background: rgba(126, 199, 185, 0.08);
+}
 
 .country-item.active {
-  background: rgba(88, 166, 255, 0.08);
+  color: var(--accent-strong);
   border-left-color: var(--accent);
-  color: var(--accent);
+  background: rgba(126, 199, 185, 0.12);
 }
 
 .country-item .badge {
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 10px;
-  background: var(--gray);
-  color: var(--muted);
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(125, 140, 160, 0.16);
+  color: var(--muted-strong);
+  font-size: 0.68rem;
+  white-space: nowrap;
 }
 
-/* ── MAP ── */
-.map-wrap {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.stat-num.green {
+  color: var(--green);
 }
 
-#world-map {
-  width: 100%;
-  height: 100%;
+.stat-num.yellow {
+  color: var(--yellow);
 }
 
 .country-path {
   fill: var(--default-country);
-  stroke: var(--bg);
+  stroke: rgba(11, 16, 23, 0.92);
   stroke-width: 0.5;
   cursor: pointer;
   transition: fill 0.25s ease;
 }
 
-.country-path:hover             { fill: var(--hover); }
-.country-path.visa-free         { fill: var(--green); }
-.country-path.visa-on-arrival   { fill: var(--yellow); }
-.country-path.visa-orange       { fill: var(--orange); }
-.country-path.visa-no-admission { fill: var(--red); }
-.country-path.selected          { fill: var(--accent); }
-.country-path.no-data           { fill: var(--gray); }
-
-/* ── TOOLTIP ── */
-.tooltip {
-  position: absolute;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.78rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s;
-  z-index: 100;
-  max-width: 200px;
+.country-path:hover {
+  fill: var(--hover);
 }
 
-.tooltip.show { opacity: 1; }
-.tooltip strong { display: block; margin-bottom: 2px; }
-.tooltip span { color: var(--muted); font-size: 0.72rem; }
-
-/* ── LOADING ── */
-.loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg);
-  z-index: 200;
-  gap: 12px;
+.country-path.visa-free {
+  fill: var(--green);
 }
 
-.loading p { color: var(--muted); font-size: 0.85rem; }
-
-.spinner {
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+.country-path.visa-on-arrival {
+  fill: var(--yellow);
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+.country-path.visa-orange {
+  fill: var(--orange);
+}
 
-/* ── EMPTY STATE ── */
-.empty-state {
-  padding: 24px 16px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.6;
+.country-path.visa-no-admission {
+  fill: var(--red);
+}
+
+.country-path.selected {
+  fill: var(--accent);
+}
+
+.country-path.no-data {
+  fill: var(--gray);
+}
+
+@media (max-width: 1100px) {
+  .dashboard-shell--passport .sidebar {
+    width: 100%;
+  }
 }

@@ -1,109 +1,104 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Global Power Index — Dalio/Ray</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="rd-style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Power Index - Dalio/Ray</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../site.css" />
+  <link rel="stylesheet" href="rd-style.css" />
 </head>
 <body>
+  <div class="dashboard-shell dashboard-shell--power">
+    <header class="dashboard-header">
+      <div class="header-left">
+        <a href="../home.html" class="home-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Robin's Maps
+        </a>
+        <div class="header-title">
+          <p class="eyebrow">Geopolitics</p>
+          <h1>Global Power Index</h1>
+          <p>Source: Dalio/Ray Power Index · 24 countries · 40 determinants</p>
+        </div>
+      </div>
+      <div class="dashboard-controls header-controls">
+        <div class="control-group">
+          <label>Colour map by</label>
+          <select id="metric-select"></select>
+        </div>
+        <div class="legend-bar">
+          <span class="legend-lo" id="legend-lo"></span>
+          <div class="legend-gradient"></div>
+          <span class="legend-hi" id="legend-hi"></span>
+        </div>
+      </div>
+    </header>
 
-<header>
-  <div class="header-left">
-    <a href="../home.html" class="home-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      The Atlas
-    </a>
-    <div class="header-title">
-      <h1>Global Power Index</h1>
-      <p>Source: Dalio/Ray Power Index · 24 countries · 40 determinants</p>
-    </div>
-  </div>
-  <div class="header-controls">
-    <div class="control-group">
-      <label>Colour map by</label>
-      <select id="metric-select"></select>
-    </div>
-    <div class="legend-bar">
-      <span class="legend-lo" id="legend-lo"></span>
-      <div class="legend-gradient"></div>
-      <span class="legend-hi" id="legend-hi"></span>
-    </div>
-  </div>
-</header>
+    <div class="dashboard-main">
+      <div class="map-wrap">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading map...</p>
+        </div>
+        <div class="tooltip" id="tooltip"></div>
+        <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
 
-<div class="main">
+      <div class="panel" id="panel">
+        <div class="panel-empty" id="panel-empty">
+          <div class="panel-empty-icon">Globe</div>
+          <p>Click any country on the map to explore its power determinants.</p>
+        </div>
 
-  <!-- MAP -->
-  <div class="map-wrap">
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p>Loading map…</p>
-    </div>
-    <div class="tooltip" id="tooltip"></div>
-    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
-  </div>
+        <div class="panel-content" id="panel-content" style="display:none">
+          <div class="panel-top">
+            <div class="panel-flag-name">
+              <span class="panel-flag" id="panel-flag"></span>
+              <div>
+                <h2 id="panel-name"></h2>
+                <div class="panel-rank-line" id="panel-rank-line"></div>
+              </div>
+            </div>
+            <button class="panel-close" id="panel-close" title="Close">X</button>
+          </div>
 
-  <!-- SIDE PANEL -->
-  <div class="panel" id="panel">
+          <div class="panel-gauge-wrap">
+            <div class="gauge-row">
+              <span class="gauge-label">Strength Gauge</span>
+              <span class="gauge-val" id="gauge-val"></span>
+            </div>
+            <div class="gauge-track">
+              <div class="gauge-fill" id="gauge-fill"></div>
+            </div>
+            <div class="gauge-rank" id="gauge-rank"></div>
+          </div>
 
-    <!-- Empty state -->
-    <div class="panel-empty" id="panel-empty">
-      <div class="panel-empty-icon">🌍</div>
-      <p>Click any country on the map to explore its power determinants</p>
-    </div>
+          <div class="panel-body" id="panel-body"></div>
 
-    <!-- Populated state -->
-    <div class="panel-content" id="panel-content" style="display:none">
-
-      <!-- ① TOP: country identity + gauge -->
-      <div class="panel-top">
-        <div class="panel-flag-name">
-          <span class="panel-flag" id="panel-flag"></span>
-          <div>
-            <h2 id="panel-name"></h2>
-            <div class="panel-rank-line" id="panel-rank-line"></div>
+          <div class="panel-sw" id="panel-sw">
+            <div class="sw-col">
+              <div class="sw-title sw-title--pos">Strengths</div>
+              <div id="sw-strengths"></div>
+            </div>
+            <div class="sw-col">
+              <div class="sw-title sw-title--neg">Weaknesses</div>
+              <div id="sw-weaknesses"></div>
+            </div>
           </div>
         </div>
-        <button class="panel-close" id="panel-close" title="Close">✕</button>
       </div>
-
-      <div class="panel-gauge-wrap">
-        <div class="gauge-row">
-          <span class="gauge-label">Strength Gauge</span>
-          <span class="gauge-val" id="gauge-val"></span>
-        </div>
-        <div class="gauge-track">
-          <div class="gauge-fill" id="gauge-fill"></div>
-        </div>
-        <div class="gauge-rank" id="gauge-rank"></div>
-      </div>
-
-      <!-- ② MIDDLE: determinant groups (scrollable) -->
-      <div class="panel-body" id="panel-body"></div>
-
-      <!-- ③ BOTTOM: strengths & weaknesses -->
-      <div class="panel-sw" id="panel-sw">
-        <div class="sw-col">
-          <div class="sw-title sw-title--pos">Strengths</div>
-          <div id="sw-strengths"></div>
-        </div>
-        <div class="sw-col">
-          <div class="sw-title sw-title--neg">Weaknesses</div>
-          <div id="sw-weaknesses"></div>
-        </div>
-      </div>
-
     </div>
+
+    <div class="det-tooltip" id="det-tooltip"></div>
   </div>
 
-</div>
-
-<!-- Tooltip template for determinant cards -->
-<div class="det-tooltip" id="det-tooltip"></div>
-
-<script src="rd-data.js"></script>
-<script src="rd-map.js"></script>
+  <script src="rd-data.js"></script>
+  <script src="rd-map.js"></script>
 </body>
 </html>
