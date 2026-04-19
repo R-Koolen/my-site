@@ -8,12 +8,8 @@
   --hover: #56718f;
 }
 
-body {
-  overflow: hidden;
-}
-
 .dashboard-shell--passport .sidebar {
-  width: 320px;
+  width: 390px;
 }
 
 .country-list {

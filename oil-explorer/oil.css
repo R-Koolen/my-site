@@ -10,12 +10,8 @@
   --hover: #56718f;
 }
 
-body {
-  overflow: hidden;
-}
-
 .dashboard-shell--oil .sidebar {
-  width: 320px;
+  width: 390px;
 }
 
 .legend-dot--export-hi {

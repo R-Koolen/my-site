@@ -20,8 +20,8 @@
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.9fr);
-  gap: 24px;
-  padding: 32px;
+  gap: 20px;
+  padding: 26px;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background:
@@ -40,10 +40,9 @@
 }
 
 .hero-copy h1 {
-  max-width: 10ch;
-  margin-top: 18px;
-  font-size: clamp(3rem, 6.4vw, 5.7rem);
-  line-height: 0.95;
+  margin-top: 12px;
+  font-size: clamp(2.8rem, 5.5vw, 4.85rem);
+  line-height: 0.94;
 }
 
 .section-heading,
@@ -56,15 +55,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
 .hero-panel {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
-  padding: 24px;
+  gap: 14px;
+  padding: 18px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
@@ -75,13 +74,13 @@
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
 }
 
 .stat-value {
   display: block;
   font-family: "Fraunces", serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   line-height: 1;
 }
 
@@ -423,8 +422,8 @@ main {
   }
 
   .hero-copy h1 {
-    max-width: 12ch;
-    font-size: clamp(2.6rem, 12vw, 4rem);
+    max-width: 10ch;
+    font-size: clamp(2.4rem, 11vw, 3.7rem);
   }
 
   .card-grid {

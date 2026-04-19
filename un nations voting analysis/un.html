@@ -21,10 +21,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
-          Robin's Maps
         </a>
         <div class="header-title">
-          <p class="eyebrow">Institutions</p>
           <h1>UN GA Voting Alignment</h1>
           <p id="header-sub">UN General Assembly · 202 countries · 1946-2025 · 5,694 resolutions</p>
         </div>
@@ -68,7 +66,7 @@
         </div>
       </div>
 
-      <div id="heatmap-wrap">
+      <div id="heatmap-wrap" class="is-hidden">
         <div class="heatmap-meta" id="heatmap-meta">Loading heatmap...</div>
         <div id="heatmap-canvas-wrap">
           <canvas id="heatmap-canvas"></canvas>
@@ -82,7 +80,7 @@
           <p>Click any country on the map to explore its voting alignment with others.</p>
         </div>
 
-        <div class="panel-content" id="panel-content" style="display:none">
+        <div class="panel-content is-hidden" id="panel-content">
           <div class="panel-top">
             <div class="panel-flag-name">
               <span class="panel-flag" id="panel-flag"></span>
@@ -91,7 +89,7 @@
                 <div class="panel-sub" id="panel-sub"></div>
               </div>
             </div>
-            <button class="panel-close" onclick="clearSelection()">X</button>
+            <button class="panel-close" onclick="clearSelection()" aria-label="Close panel">×</button>
           </div>
 
           <div class="panel-gauge-wrap">
@@ -124,11 +122,11 @@
             <div class="panel-body" id="panel-body"></div>
           </div>
 
-          <div class="tab-pane" id="tab-subjects" style="display:none">
+          <div class="tab-pane is-hidden" id="tab-subjects">
             <div class="subject-list" id="subject-list"></div>
           </div>
 
-          <div class="tab-pane" id="tab-trend" style="display:none">
+          <div class="tab-pane is-hidden" id="tab-trend">
             <div class="trend-wrap">
               <canvas id="trend-canvas"></canvas>
             </div>
@@ -140,7 +138,7 @@
             <div class="legend-labs"><span>0%</span><span>50%</span><span>100%</span></div>
           </div>
 
-          <div class="compare-pane" id="compare-pane" style="display:none">
+          <div class="compare-pane is-hidden" id="compare-pane">
             <div class="cmp-header">
               <button class="cmp-back" onclick="closeComparison()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -175,11 +173,11 @@
               <div class="cmp-section-body" id="cmp-beh-content"></div>
             </div>
 
-            <div class="ctab-pane" id="ctab-subjects" style="display:none">
+            <div class="ctab-pane is-hidden" id="ctab-subjects">
               <div class="subject-list" id="cmp-subject-list"></div>
             </div>
 
-            <div class="ctab-pane" id="ctab-trend" style="display:none">
+            <div class="ctab-pane is-hidden" id="ctab-trend">
               <div class="trend-wrap">
                 <canvas id="cmp-trend-canvas"></canvas>
               </div>

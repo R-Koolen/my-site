@@ -19,10 +19,8 @@
       <div class="header-left">
         <a href="../home.html" class="home-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          Robin's Maps
         </a>
         <div class="header-title">
-          <p class="eyebrow">Geopolitics</p>
           <h1>Global Power Index</h1>
           <p>Source: Dalio/Ray Power Index · 24 countries · 40 determinants</p>
         </div>
@@ -56,7 +54,7 @@
           <p>Click any country on the map to explore its power determinants.</p>
         </div>
 
-        <div class="panel-content" id="panel-content" style="display:none">
+        <div class="panel-content is-hidden" id="panel-content">
           <div class="panel-top">
             <div class="panel-flag-name">
               <span class="panel-flag" id="panel-flag"></span>
@@ -65,7 +63,7 @@
                 <div class="panel-rank-line" id="panel-rank-line"></div>
               </div>
             </div>
-            <button class="panel-close" id="panel-close" title="Close">X</button>
+            <button class="panel-close" id="panel-close" title="Close" aria-label="Close panel">×</button>
           </div>
 
           <div class="panel-gauge-wrap">

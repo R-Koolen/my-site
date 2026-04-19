@@ -6,12 +6,8 @@
   --surface-soft-strong: rgba(255, 255, 255, 0.05);
 }
 
-body {
-  overflow: hidden;
-}
-
 .dashboard-shell--power .panel {
-  width: 420px;
+  width: 520px;
 }
 
 .legend-lo,
@@ -101,6 +97,10 @@ body {
 .det-card:hover,
 .det-card--mappable:hover {
   background: var(--surface-soft);
+}
+
+.group-content {
+  display: block;
 }
 
 .group-title,
@@ -228,6 +228,7 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid var(--border);
   max-height: 180px;
+  flex-shrink: 0;
 }
 
 .sw-col {

@@ -187,6 +187,15 @@ let iso2ToCountry    = {};
 let selectedCountry  = null;
 let currentMetric    = 'Strength Gauge (0-1)'; // default — first CHOROPLETH_METRICS entry
 const collapsedGroups = new Set(); // track which accordions are closed
+const HIDDEN_CLASS = 'is-hidden';
+
+function showElement(id) {
+  document.getElementById(id).classList.remove(HIDDEN_CLASS);
+}
+
+function hideElement(id) {
+  document.getElementById(id).classList.add(HIDDEN_CLASS);
+}
 
 // ─── COLOUR HELPERS ────────────────────────────────────────────────────────
 function lerp(a, b, t) {
@@ -355,12 +364,12 @@ function onCountryClick(name, iso2) {
   openPanel(name);
 }
 function closePanel() {
-  document.getElementById('panel-empty').style.display='flex';
-  document.getElementById('panel-content').style.display='none';
+  showElement('panel-empty');
+  hideElement('panel-content');
 }
 function openPanel(name) {
-  document.getElementById('panel-empty').style.display='none';
-  document.getElementById('panel-content').style.display='flex';
+  hideElement('panel-empty');
+  showElement('panel-content');
 
   const data=COUNTRY_DATA[name]||{};
   const iso2=COUNTRY_TO_ISO2[name];
@@ -411,12 +420,13 @@ function renderBody(name, data) {
 
     // Group content wrapper
     const content = document.createElement('div');
-    content.style.display = isCollapsed ? 'none' : 'block';
+    content.className = 'group-content';
+    if (isCollapsed) content.classList.add(HIDDEN_CLASS);
     body.appendChild(content);
 
     hdr.addEventListener('click', () => {
-      const open = content.style.display !== 'none';
-      content.style.display = open ? 'none' : 'block';
+      const open = !content.classList.contains(HIDDEN_CLASS);
+      content.classList.toggle(HIDDEN_CLASS, open);
       hdr.querySelector('.group-toggle').classList.toggle('open', !open);
       if (open) collapsedGroups.add(group.id);
       else collapsedGroups.delete(group.id);

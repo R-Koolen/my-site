@@ -64,8 +64,15 @@ textarea {
 .dashboard-shell {
   position: relative;
   z-index: 1;
-  width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 40px));
+}
+
+.dashboard-shell {
+  width: min(1400px, calc(100% - 40px));
 }
 
 .page-shell {
@@ -146,10 +153,10 @@ textarea {
 
 .dashboard-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 24px 28px;
+  padding: 18px 24px;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background:
@@ -160,8 +167,8 @@ textarea {
 
 .header-left {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
   min-width: 0;
 }
 
@@ -188,8 +195,8 @@ textarea {
 }
 
 .header-title h1 {
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  line-height: 1.02;
+  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  line-height: 1;
 }
 
 .header-title p,
@@ -210,22 +217,37 @@ textarea {
 }
 
 .header-title p {
-  margin: 10px 0 0;
-  max-width: 64ch;
-  font-size: 0.96rem;
-  line-height: 1.6;
+  margin: 6px 0 0;
+  max-width: none;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  min-width: 0;
+}
+
+.header-title .eyebrow {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  font-size: 0.66rem;
 }
 
 .dashboard-controls {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
   justify-content: flex-end;
 }
 
 .control-group {
-  display: grid;
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -266,8 +288,8 @@ textarea:focus {
 
 .legend {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  flex-wrap: nowrap;
+  gap: 12px;
   align-items: center;
 }
 
@@ -275,8 +297,9 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
-  line-height: 1.3;
+  font-size: 0.76rem;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .legend-dot {
@@ -341,6 +364,7 @@ textarea:focus {
 .dashboard-main {
   display: flex;
   gap: 20px;
+  align-items: flex-start;
   min-height: calc(100vh - 180px);
   padding-top: 20px;
 }
@@ -356,7 +380,7 @@ textarea:focus {
 }
 
 .sidebar {
-  width: 310px;
+  width: 360px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -364,12 +388,37 @@ textarea:focus {
 }
 
 .panel {
-  width: 400px;
+  width: 460px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+}
+
+.dashboard-main > .sidebar,
+.dashboard-main > .panel,
+.dashboard-main > .map-wrap,
+.dashboard-main > #map-wrap,
+.dashboard-main > #heatmap-wrap {
+  align-self: flex-start;
+}
+
+.dashboard-main > .map-wrap,
+.dashboard-main > #map-wrap,
+.dashboard-main > #heatmap-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 40px);
+  min-height: 640px;
+}
+
+.dashboard-main > .sidebar,
+.dashboard-main > .panel {
+  max-height: calc(100vh - 40px);
+  min-height: 640px;
 }
 
 .sidebar-top,
@@ -379,6 +428,93 @@ textarea:focus {
 .search-wrap,
 .panel-list-header {
   border-bottom: 1px solid var(--border);
+}
+
+.panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px 14px;
+}
+
+.panel-gauge-wrap {
+  display: grid;
+  gap: 10px;
+  padding: 14px 18px 16px;
+  flex-shrink: 0;
+}
+
+.panel-flag-name {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.panel-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(126, 199, 185, 0.08);
+  border: 1px solid var(--border);
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.panel-flag-name > div {
+  min-width: 0;
+}
+
+.panel-rank-line,
+.panel-sub,
+.gauge-meta,
+.gauge-rank {
+  max-width: 34ch;
+}
+
+.gauge-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gauge-label,
+.gauge-val {
+  line-height: 1.1;
+}
+
+.gauge-val {
+  flex-shrink: 0;
+}
+
+.panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: rgba(12, 18, 27, 0.74);
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+
+.panel-close:hover {
+  border-color: rgba(126, 199, 185, 0.48);
+  color: var(--accent-strong);
+  background: rgba(126, 199, 185, 0.1);
+  transform: translateY(-1px);
 }
 
 .sidebar-top {
@@ -493,6 +629,13 @@ textarea:focus {
   line-height: 1.7;
 }
 
+.panel-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .panel-empty {
   flex: 1;
   display: flex;
@@ -504,8 +647,11 @@ textarea:focus {
   text-align: center;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .map-wrap {
-  flex: 1;
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -604,16 +750,34 @@ textarea:focus {
     flex-direction: column;
   }
 
+  .header-left,
+  .dashboard-controls,
+  .legend {
+    flex-wrap: wrap;
+  }
+
   .dashboard-controls {
     justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .control-group {
+    align-items: flex-start;
   }
 
   .sidebar,
   .panel {
     width: 100%;
+    max-height: none;
+    min-height: 0;
   }
 
-  .map-wrap {
+  .dashboard-main > .map-wrap,
+  .dashboard-main > #map-wrap,
+  .dashboard-main > #heatmap-wrap {
+    position: static;
+    top: auto;
+    height: auto;
     min-height: 520px;
   }
 }
@@ -634,10 +798,16 @@ textarea:focus {
 
   .dashboard-header {
     padding: 20px;
+    align-items: flex-start;
   }
 
   .header-title h1 {
     font-size: clamp(1.8rem, 10vw, 2.5rem);
+  }
+
+  .header-left,
+  .header-title {
+    align-items: flex-start;
   }
 
   .dashboard-controls,
