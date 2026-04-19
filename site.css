@@ -72,7 +72,7 @@ textarea {
 }
 
 .dashboard-shell {
-  width: min(1400px, calc(100% - 40px));
+  width: min(1600px, calc(100% - 40px));
 }
 
 .page-shell {
@@ -80,8 +80,11 @@ textarea {
 }
 
 .dashboard-shell {
-  padding: 20px 0 24px;
-  min-height: 100vh;
+  padding: 20px 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .eyebrow,
@@ -163,6 +166,7 @@ textarea {
     linear-gradient(135deg, rgba(29, 39, 57, 0.96), rgba(20, 28, 41, 0.9)),
     radial-gradient(circle at top right, rgba(126, 199, 185, 0.1), transparent 40%);
   box-shadow: var(--shadow);
+  flex-shrink: 0;
 }
 
 .header-left {
@@ -364,8 +368,10 @@ textarea:focus {
 .dashboard-main {
   display: flex;
   gap: 20px;
-  align-items: flex-start;
-  min-height: calc(100vh - 180px);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   padding-top: 20px;
 }
 
@@ -396,29 +402,19 @@ textarea:focus {
   position: relative;
 }
 
-.dashboard-main > .sidebar,
-.dashboard-main > .panel,
-.dashboard-main > .map-wrap,
-.dashboard-main > #map-wrap,
-.dashboard-main > #heatmap-wrap {
-  align-self: flex-start;
-}
-
 .dashboard-main > .map-wrap,
 .dashboard-main > #map-wrap,
 .dashboard-main > #heatmap-wrap {
   flex: 1 1 0;
   min-width: 0;
-  position: sticky;
-  top: 20px;
-  height: calc(100vh - 40px);
-  min-height: 640px;
+  height: 100%;
+  min-height: 360px;
 }
 
 .dashboard-main > .sidebar,
 .dashboard-main > .panel {
-  max-height: calc(100vh - 40px);
-  min-height: 640px;
+  max-height: 100%;
+  min-height: 0;
 }
 
 .sidebar-top,
@@ -745,9 +741,20 @@ textarea:focus {
 }
 
 @media (max-width: 1100px) {
+  .dashboard-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
   .dashboard-header,
   .dashboard-main {
     flex-direction: column;
+  }
+
+  .dashboard-main {
+    overflow: visible;
+    flex: none;
   }
 
   .header-left,
@@ -775,8 +782,6 @@ textarea:focus {
   .dashboard-main > .map-wrap,
   .dashboard-main > #map-wrap,
   .dashboard-main > #heatmap-wrap {
-    position: static;
-    top: auto;
     height: auto;
     min-height: 520px;
   }
