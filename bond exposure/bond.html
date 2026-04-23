@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Government Debt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="bond-style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <a href="../home.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      The Atlas
+    </a>
+    <div class="header-title">
+      <h1>Government Debt</h1>
+      <p>Source: IMF DataMapper · GGXWDG_NGDP · General Government Gross Debt (% of GDP)</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="legend-bar">
+      <span class="legend-lo">0%</span>
+      <div class="legend-gradient" id="legend-gradient"></div>
+      <span class="legend-hi">200%+</span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- MAP -->
+  <div class="map-wrap">
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading map…</p>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+    <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="panel" id="panel">
+
+    <!-- Empty state -->
+    <div class="panel-empty" id="panel-empty">
+      <div class="panel-empty-icon">🏛️</div>
+      <p>Click any country to see its government debt as a share of GDP</p>
+    </div>
+
+    <!-- Populated state -->
+    <div class="panel-content" id="panel-content" style="display:none">
+
+      <!-- TOP: flag + name + close -->
+      <div class="panel-top">
+        <div class="panel-flag-name">
+          <span class="panel-flag" id="panel-flag"></span>
+          <div>
+            <h2 id="panel-name"></h2>
+            <div class="panel-rank-line" id="panel-rank"></div>
+          </div>
+        </div>
+        <button class="panel-close" id="panel-close" title="Close">✕</button>
+      </div>
+
+      <!-- DEBT VALUE -->
+      <div class="panel-gauge-wrap">
+        <div class="gauge-row">
+          <span class="gauge-label">Govt Debt / GDP</span>
+          <span class="gauge-val" id="panel-value">—</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gauge-fill" style="width:0%"></div>
+        </div>
+        <div class="gauge-rank" id="panel-year"></div>
+        <div class="gauge-rank" style="margin-top:4px" id="panel-label"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="bond-data.js"></script>
+<script src="bond-script.js"></script>
+</body>
+</html>
