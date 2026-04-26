@@ -55,7 +55,10 @@ h1 {
 
 /* ── CARD GRID ── */
 .grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+@media (max-width: 780px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ── CARD ── */
