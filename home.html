@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Robin's Maps</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
   <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -126,6 +127,36 @@
         <div class="card-body">
           <h2>United Nations Voting Analysis</h2>
           <p>(Heat)map visualization of voting patterns across UN member states.</p>
+          <span class="card-link">Explore →</span>
+        </div>
+      </a>
+
+      <!-- Government Debt -->
+      <a class="card" href="bond exposure/bond.html">
+        <div class="card-visual">
+          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" class="preview-map">
+            <defs>
+              <linearGradient id="pg2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#1a3a2a"/>
+                <stop offset="40%" style="stop-color:#27ae60"/>
+                <stop offset="70%" style="stop-color:#e2b44b"/>
+                <stop offset="100%" style="stop-color:#7b0000"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="72" cy="75" rx="28" ry="42" fill="#e2b44b" opacity="0.75" transform="rotate(-8 72 75)"/>
+            <ellipse cx="80" cy="110" rx="18" ry="28" fill="#c0392b" opacity="0.65" transform="rotate(5 80 110)"/>
+            <ellipse cx="148" cy="62" rx="18" ry="24" fill="#27ae60" opacity="0.7" transform="rotate(-3 148 62)"/>
+            <ellipse cx="152" cy="100" rx="22" ry="34" fill="#27ae60" opacity="0.5" transform="rotate(4 152 100)"/>
+            <ellipse cx="210" cy="60" rx="38" ry="26" fill="#7b0000" opacity="0.6" transform="rotate(-5 210 60)"/>
+            <ellipse cx="228" cy="112" rx="18" ry="14" fill="#e2b44b" opacity="0.5" transform="rotate(8 228 112)"/>
+            <line x1="0" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="140" y1="0" x2="140" y2="160" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          </svg>
+          <div class="card-tag">IMF DataMapper</div>
+        </div>
+        <div class="card-body">
+          <h2>Government Debt</h2>
+          <p>Choropleth map of public debt and 15 fiscal indicators across 230+ countries. Click any country for a full breakdown.</p>
           <span class="card-link">Explore →</span>
         </div>
       </a>

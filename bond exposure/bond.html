@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Global Government Debt</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
   <link rel="stylesheet" href="bond-style.css">
 </head>
 <body>
@@ -20,14 +21,20 @@
     </a>
     <div class="header-title">
       <h1>Government Debt</h1>
-      <p>Source: IMF DataMapper · GGXWDG_NGDP · General Government Gross Debt (% of GDP)</p>
+      <p>Source: IMF DataMapper · General government indicators</p>
     </div>
   </div>
   <div class="header-controls">
+    <!-- Map metric selector -->
+    <div class="map-metric-wrap">
+      <label class="map-metric-label">Map shows</label>
+      <select id="map-metric-select" class="map-metric-select"></select>
+    </div>
+    <!-- Legend -->
     <div class="legend-bar">
-      <span class="legend-lo">0%</span>
+      <span class="legend-lo" id="legend-lo">—</span>
       <div class="legend-gradient" id="legend-gradient"></div>
-      <span class="legend-hi">200%+</span>
+      <span class="legend-hi" id="legend-hi">—</span>
     </div>
   </div>
 </header>
@@ -50,7 +57,7 @@
     <!-- Empty state -->
     <div class="panel-empty" id="panel-empty">
       <div class="panel-empty-icon">🏛️</div>
-      <p>Click any country to see its government debt as a share of GDP</p>
+      <p>Click any country to see its fiscal and debt indicators</p>
     </div>
 
     <!-- Populated state -->
@@ -68,18 +75,8 @@
         <button class="panel-close" id="panel-close" title="Close">✕</button>
       </div>
 
-      <!-- DEBT VALUE -->
-      <div class="panel-gauge-wrap">
-        <div class="gauge-row">
-          <span class="gauge-label">Govt Debt / GDP</span>
-          <span class="gauge-val" id="panel-value">—</span>
-        </div>
-        <div class="gauge-track">
-          <div class="gauge-fill" id="gauge-fill" style="width:0%"></div>
-        </div>
-        <div class="gauge-rank" id="panel-year"></div>
-        <div class="gauge-rank" style="margin-top:4px" id="panel-label"></div>
-      </div>
+      <!-- ACCORDION SECTIONS — filled by JS -->
+      <div class="panel-scroll" id="panel-scroll"></div>
 
     </div>
   </div>

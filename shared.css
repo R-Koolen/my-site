@@ -1,0 +1,257 @@
+/*
+ * shared.css — common styles across all atlas project pages
+ * Load this BEFORE your project-specific stylesheet.
+ *
+ * Covers:
+ *   § 1  CSS variables  (Syne-atlas defaults; oil / passport / home override these)
+ *   § 2  Reset
+ *   § 3  Body base
+ *   § 4  Map layout     (.main / .map-wrap / #world-map / .country-path base)
+ *   § 5  Header sub-elements  (.header-left / .home-btn / .header-title)
+ *   § 6  Header controls  (.header-controls / .control-group / select)
+ *   § 7  Legend bar
+ *   § 8  Tooltip
+ *   § 9  Loading + spinner
+ *   § 10 Sidebar  (oil + passport)
+ *   § 11 Panel    (ray-dalio / UN / bond)
+ *   § 12 Gauge    (ray-dalio / UN / bond)
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   § 1  CSS VARIABLES  (Syne-atlas default palette)
+   oil.css / passport style.css / home.css override these
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --bg:       #0a0e14;
+  --surface:  #111720;
+  --surface2: #161d28;
+  --surface3: #1b2333;
+  --border:   #1e2836;
+  --border2:  #263142;
+  --text:     #d4dde8;
+  --muted:    #5a6a7e;
+  --muted2:   #7a8fa8;
+  --accent:   #e2b44b;
+  --panel-w:  360px;
+  --pos:      #27ae60;
+  --neg:      #c0392b;
+  --pos-dim:  rgba(39,174,96,0.15);
+  --neg-dim:  rgba(192,57,43,0.15);
+  /* sidebar/list helpers (oil + passport) */
+  --gray:     #30363d;
+  --hover:    #3a4a5c;
+  --default-country: #2a3441;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   § 2  RESET
+═══════════════════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 3  BODY BASE
+   Each project adds its own font-family, height/min-height, overflow.
+═══════════════════════════════════════════════════════════════ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   § 4  MAP LAYOUT
+═══════════════════════════════════════════════════════════════ */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+.map-wrap { flex: 1; position: relative; overflow: hidden; }
+
+#world-map { width: 100%; height: 100%; }
+
+.country-path {
+  stroke: var(--bg);
+  stroke-width: 0.5;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   § 5  HEADER SUB-ELEMENTS
+═══════════════════════════════════════════════════════════════ */
+.header-left { display: flex; flex-direction: column; gap: 4px; }
+
+.home-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.15s;
+}
+.home-btn svg { flex-shrink: 0; }
+.home-btn:hover { color: var(--accent); }
+
+.header-title h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; }
+.header-title p   { font-size: 0.72rem; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 6  HEADER CONTROLS  (Syne-atlas: ray-dalio / UN / bond)
+═══════════════════════════════════════════════════════════════ */
+.header-controls { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+
+.control-group { display: flex; align-items: center; gap: 8px; }
+.control-group label {
+  font-size: 0.72rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap;
+}
+
+select {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); font-family: inherit; font-size: 0.78rem;
+  padding: 5px 28px 5px 10px; border-radius: 5px; outline: none; cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a6a7e'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+}
+select:focus { border-color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 7  LEGEND BAR  (Syne-atlas)
+═══════════════════════════════════════════════════════════════ */
+.legend-bar { display: flex; align-items: center; gap: 8px; }
+.legend-lo, .legend-hi {
+  font-size: 0.65rem; color: var(--muted);
+  font-family: 'DM Mono', monospace; white-space: nowrap;
+}
+.legend-gradient { height: 10px; border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 8  TOOLTIP
+═══════════════════════════════════════════════════════════════ */
+.tooltip {
+  position: absolute; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px; font-size: 0.76rem;
+  pointer-events: none; opacity: 0; transition: opacity 0.12s; z-index: 100;
+}
+.tooltip.show { opacity: 1; }
+.tooltip strong { display: block; margin-bottom: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 9  LOADING + SPINNER
+═══════════════════════════════════════════════════════════════ */
+.loading {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg); z-index: 200; gap: 12px;
+}
+.loading p { color: var(--muted); font-size: 0.85rem; }
+
+.spinner {
+  width: 32px; height: 32px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 10  SIDEBAR  (oil + passport)
+═══════════════════════════════════════════════════════════════ */
+.sidebar {
+  width: 260px; flex-shrink: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sidebar-top { padding: 16px; border-bottom: 1px solid var(--border); }
+.sidebar-top h2 { font-size: 1rem; margin-bottom: 4px; }
+.sidebar-top p  { font-size: 0.75rem; color: var(--muted); }
+
+.stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border);
+}
+.stat { background: var(--bg); border-radius: 6px; padding: 10px; text-align: center; }
+.stat-num   { font-size: 1.4rem; font-weight: 700; display: block; }
+.stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); }
+.tab {
+  flex: 1; padding: 9px; font-size: 0.78rem; font-family: inherit;
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s;
+}
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.tab:hover:not(.active) { color: var(--text); }
+
+.search-wrap { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.search-wrap input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); padding: 7px 10px;
+  font-size: 0.8rem; font-family: inherit; outline: none;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+
+.country-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+.country-list::-webkit-scrollbar       { width: 4px; }
+.country-list::-webkit-scrollbar-track { background: transparent; }
+.country-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.country-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 16px; font-size: 0.78rem; cursor: pointer;
+  border-left: 2px solid transparent; transition: background 0.15s;
+}
+.country-item:hover          { background: var(--gray); }
+.country-item.active         { background: rgba(88,166,255,0.08); border-left-color: var(--accent); color: var(--accent); }
+.country-item .badge         { font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; background: var(--gray); }
+
+.legend         { display: flex; gap: 16px; align-items: center; }
+.legend-item    { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); }
+.legend-dot     { width: 10px; height: 10px; border-radius: 2px; }
+
+.empty-state    { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
+.section-label  { padding: 6px 16px 2px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 11  PANEL  (ray-dalio / UN / bond)
+═══════════════════════════════════════════════════════════════ */
+.panel {
+  width: var(--panel-w); flex-shrink: 0;
+  background: var(--surface); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+
+.panel-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; padding: 32px; text-align: center;
+}
+.panel-empty-icon { font-size: 3rem; }
+.panel-empty p    { color: var(--muted); font-size: 0.84rem; line-height: 1.7; max-width: 240px; }
+
+.panel-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+.panel-top {
+  padding: 14px 16px 12px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.panel-flag-name    { display: flex; align-items: center; gap: 12px; }
+.panel-flag         { font-size: 2.2rem; line-height: 1; }
+.panel-flag-name h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 3px; }
+.panel-rank-line, .panel-sub { font-size: 0.72rem; color: var(--muted2); }
+
+.panel-close {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 1rem; padding: 2px 6px; border-radius: 4px;
+  transition: color 0.15s; flex-shrink: 0;
+}
+.panel-close:hover { color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════
+   § 12  GAUGE  (ray-dalio / UN / bond)
+═══════════════════════════════════════════════════════════════ */
+.panel-gauge-wrap {
+  padding: 12px 16px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.gauge-row   { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.gauge-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.gauge-val   { font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 400; }
+.gauge-track { height: 7px; background: var(--border2); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.gauge-fill  { height: 100%; border-radius: 4px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.gauge-rank, .gauge-meta { font-size: 0.7rem; color: var(--muted); }
