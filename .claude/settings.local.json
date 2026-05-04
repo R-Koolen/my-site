@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check asml-script.js)",
+      "Bash(node --check asml-data.js)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"http.server 8765\")",
+      "Bash(python -m http.server 8765)",
+      "Bash(curl -s -o /dev/null -w \"asml.html: %{http_code}\\\\n\" \"http://localhost:8765/asml%20supply%20chain/asml.html\")",
+      "Bash(curl -s -o /dev/null -w \"asml-script.js: %{http_code}\\\\n\" \"http://localhost:8765/asml%20supply%20chain/asml-script.js\")",
+      "Bash(curl -s -o /dev/null -w \"asml-style.css: %{http_code}\\\\n\" \"http://localhost:8765/asml%20supply%20chain/asml-style.css\")"
+    ]
+  }
+}

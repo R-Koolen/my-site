@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASML Supply Chain — Atlas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+  <link rel="stylesheet" href="asml-style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <a href="../home.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      The Atlas
+    </a>
+    <div class="header-title">
+      <h1>ASML Supply Chain</h1>
+    </div>
+  </div>
+  <div class="header-controls">
+    <span class="hint">Click any node for details</span>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- FLOW CHART AREA -->
+  <div class="chart-wrap" id="chart-wrap">
+
+    <!-- ① MACHINE NODE -->
+    <div class="machine-node">
+      <div class="machine-eyebrow">Subject of the supply chain</div>
+      <div class="machine-title" id="machine-title"></div>
+      <div class="machine-stats" id="machine-stats"></div>
+    </div>
+
+    <div class="trunk"></div>
+
+    <!-- ② SIMPLIFIED SUBSYSTEM ROW (5 cards, click opens inline expansion below) -->
+    <div class="subsys-row" id="subsys-row"></div>
+
+    <!-- Inline expansion panel — fills below the row when a subsystem is opened -->
+    <div class="subsys-expand" id="subsys-expand" hidden></div>
+
+    <!-- ③ WORLD MAP — supplier locations -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Where suppliers are based</div>
+          <div class="section-sub">Tier-1 supplier locations. Drag to pan · scroll to zoom · click any dot.</div>
+        </div>
+        <div class="map-controls">
+          <button class="toggle-btn" id="tier3-toggle" type="button">
+            <span class="toggle-dot"></span>
+            Show Tier-3 raw materials
+          </button>
+          <div class="map-legend" id="map-legend"></div>
+        </div>
+      </div>
+      <div class="map-wrap" id="map-wrap">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading map…</p>
+        </div>
+        <div class="tooltip" id="tooltip"></div>
+        <svg id="world-map" viewBox="0 0 2000 1001" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="zoom-controls">
+          <button class="zoom-btn" id="zoom-in"  type="button" title="Zoom in">+</button>
+          <button class="zoom-btn" id="zoom-out" type="button" title="Zoom out">−</button>
+          <button class="zoom-btn" id="zoom-reset" type="button" title="Reset">⊙</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ TIER-1 SUPPLIERS -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Tier-1 Suppliers</div>
+          <div class="section-sub">Critical companies feeding the EUV machine. Click any for details.</div>
+        </div>
+      </div>
+      <div class="cat-filter" id="cat-filter"></div>
+      <div class="supplier-grid" id="supplier-grid"></div>
+    </div>
+
+    <!-- ⑤ RAW MATERIALS -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Raw Materials (Tier-3)</div>
+          <div class="section-sub">Underlying inputs and their geopolitical risk</div>
+        </div>
+      </div>
+      <div class="raw-list" id="raw-list"></div>
+    </div>
+
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="panel" id="panel">
+
+    <div class="panel-empty" id="panel-empty">
+      <div class="panel-empty-icon">⚙️</div>
+      <p>Click any subsystem, component, or supplier to see details</p>
+    </div>
+
+    <div class="panel-content" id="panel-content" style="display:none">
+      <div class="panel-top">
+        <div class="panel-flag-name">
+          <span class="panel-flag" id="panel-flag"></span>
+          <div>
+            <h2 id="panel-name"></h2>
+            <div class="panel-rank-line" id="panel-rank-line"></div>
+          </div>
+        </div>
+        <button class="panel-close" id="panel-close" title="Close">✕</button>
+      </div>
+      <div class="panel-scroll" id="panel-scroll"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="asml-data.js"></script>
+<script src="asml-script.js"></script>
+</body>
+</html>
